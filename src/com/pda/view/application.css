@@ -23,3 +23,17 @@
  	-fx-background-image: url("");
  }
  
+.scroll-pane{
+	-fx-background-color: #357A86;
+	-fx-border-width: 0px;
+}
+
+.scroll-bar:vertical {
+    -fx-scale-x: 0;
+    -fx-background-color: #357A86;
+}
+
+.scroll-bar:horizontal {
+    -fx-scale-x: 0;
+    -fx-background-color: #357A86;
+}
