@@ -1,4 +1,25 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+#panel_principal{
+	-fx-background-color: white;
+}
+
 #panel_lista{
 	-fx-background-color: #357A86;
 }
+
+ #btn_crear{
+ 	-fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+ }
+ 
+ #btn_cargar{
+ 	-fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+ }
+ 
+ #img_logo{
+ 	-fx-background-image: url("");
+ }
+ 
