@@ -17,7 +17,7 @@ public class Main extends Application {
 			Scene scene = new Scene(root);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
-			primaryStage.setTitle("Simulador de autómatas de pila");
+			primaryStage.setTitle("Simulador de autÃ³matas de pila");
 			primaryStage.show();
 		} catch(Exception e) {
 			e.printStackTrace();

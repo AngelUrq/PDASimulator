@@ -22,8 +22,8 @@
             </Label>
          </children>
       </Pane>
-      <Button id="btn_crear" layoutX="394.0" layoutY="372.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" stylesheets="@application.css" text="Crear autómata" />
-      <Button id="btn_cargar" layoutX="394.0" layoutY="415.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" stylesheets="@application.css" text="Cargar autómata" />
+      <Button id="btn_crear" layoutX="394.0" layoutY="372.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" stylesheets="@application.css" text="Crear autómata" onAction = "#btnCrearPresionado" />
+      <Button id="btn_cargar" layoutX="394.0" layoutY="415.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="200.0" stylesheets="@application.css" text="Cargar autómata" onAction = "#btnCargarPresionado"/>
       <ImageView id="img_fondo" fitHeight="189.0" fitWidth="252.0" layoutX="400.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@robot.png" />

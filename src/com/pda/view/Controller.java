@@ -1,21 +1,33 @@
 package com.pda.view;
 
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
-import javafx.fxml.FXML;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 public class Controller {
 
+    private Desktop desktop = Desktop.getDesktop();
+
 	@FXML
 	private ScrollPane listaScroll;
+	
 
 	@FXML
 	public void initialize() {
-		System.out.println("MÈtodo initialize");
+		
 		listar();
+		
+		
 	}
 
 	public void listar() {		
@@ -35,5 +47,31 @@ public class Controller {
 		
 		listaScroll.setContent(grid);
 	}
+	
+@FXML	public void btnCrearPresionado(ActionEvent event) {
+		
+			FileChooser fileChooser = new FileChooser();
+			File file = fileChooser.showOpenDialog(new Stage());
+			if (file != null) {
+				open(file);
+			}
+			
+		}
 
+@FXML	public void btnCargarPresionado(ActionEvent event) {
+	
+			System.out.println("Bot√≥n cargar presionado :)");
+   	
+}
+		public void open(File file) {
+		            try {
+						desktop.open(file);
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+		       
+		}
+			
+   
 }
