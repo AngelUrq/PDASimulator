@@ -16,18 +16,15 @@ import javafx.stage.Stage;
 
 public class Controller {
 
-    private Desktop desktop = Desktop.getDesktop();
+	private Desktop desktop;
 
 	@FXML
 	private ScrollPane listaScroll;
-	
 
 	@FXML
 	public void initialize() {
-		
+		desktop = Desktop.getDesktop();
 		listar();
-		
-		
 	}
 
 	public void listar() {		
@@ -41,37 +38,33 @@ public class Controller {
 				Button button = new Button(listOfFiles[r].getName());
 				button.setPrefWidth(listaScroll.getPrefWidth());
 				button.setStyle("-fx-background-color: #357A86; -fx-text-fill: white; -fx-padding: 15px");
-	            grid.add(button, 1, r);
+				grid.add(button, 1, r);
 			}
-        }
-		
-		listaScroll.setContent(grid);
-	}
-	
-@FXML	public void btnCrearPresionado(ActionEvent event) {
-		
-			FileChooser fileChooser = new FileChooser();
-			File file = fileChooser.showOpenDialog(new Stage());
-			if (file != null) {
-				open(file);
-			}
-			
 		}
 
-@FXML	public void btnCargarPresionado(ActionEvent event) {
-	
-			System.out.println("Botón cargar presionado :)");
-   	
-}
-		public void open(File file) {
-		            try {
-						desktop.open(file);
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-		       
+		listaScroll.setContent(grid);
+	}
+
+	@FXML	
+	public void btnCrearPresionado(ActionEvent event) {
+
+	}
+
+	@FXML	
+	public void btnCargarPresionado(ActionEvent event) {
+		FileChooser fileChooser = new FileChooser();
+		File file = fileChooser.showOpenDialog(new Stage());
+		if (file != null) {
+			open(file);
 		}
-			
-   
+	}
+	
+	public void open(File file) {
+		try {
+			desktop.open(file);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
