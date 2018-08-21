@@ -11,9 +11,9 @@
 
 <AnchorPane id="panelPrincipal" prefHeight="700.0" prefWidth="1044.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="123.0" layoutY="84.0" text="Definición formal del autómata" textFill="#f2eeee">
+      <Label layoutX="136.0" layoutY="80.0" text="Definición formal del autómata" textFill="#f2eeee">
          <font>
-            <Font name="Century Gothic Bold" size="29.0" />
+            <Font name="Century Gothic" size="29.0" />
          </font>
       </Label>
       <TextField layoutX="194.0" layoutY="181.0" prefHeight="31.0" prefWidth="384.0" />
@@ -24,39 +24,39 @@
       <TextField layoutX="194.0" layoutY="582.0" prefHeight="31.0" prefWidth="384.0" />
       <Label layoutX="74.0" layoutY="145.0" text="Conjunto de estados:" textFill="#f2eeee">
          <font>
-            <Font name="Century Gothic" size="18.0" />
+            <Font name="Century Gothic" size="16.0" />
          </font>
       </Label>
       <Label layoutX="75.0" layoutY="225.0" text="Alfabeto de entrada:" textFill="#f2eeee">
          <font>
-            <Font name="Century Gothic" size="18.0" />
+            <Font name="Century Gothic" size="16.0" />
          </font>
       </Label>
       <Label layoutX="76.0" layoutY="307.0" text="Alfabeto de la pila:" textFill="#f2eeee">
          <font>
-            <Font name="Century Gothic" size="18.0" />
+            <Font name="Century Gothic" size="16.0" />
          </font>
       </Label>
       <Label layoutX="74.0" layoutY="384.0" text="Estado inicial:" textFill="#f2eeee">
          <font>
-            <Font name="Century Gothic" size="18.0" />
+            <Font name="Century Gothic" size="16.0" />
          </font>
       </Label>
       <Label layoutX="79.0" layoutY="460.0" text="Símbolo inicial de la pila:" textFill="#f2eeee">
          <font>
-            <Font name="Century Gothic" size="18.0" />
+            <Font name="Century Gothic" size="16.0" />
          </font>
       </Label>
       <Label layoutX="74.0" layoutY="539.0" text="Conjunto de estados aceptados:" textFill="#f2eeee">
          <font>
-            <Font name="Century Gothic" size="18.0" />
+            <Font name="Century Gothic" size="16.0" />
          </font>
       </Label>
       <Pane id="panelLateral" layoutX="677.0" layoutY="-2.0" prefHeight="712.0" prefWidth="366.0" stylesheets="@application.css">
          <children>
             <ImageView fitHeight="287.0" fitWidth="274.0" layoutX="29.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@transferencia-mental.png" />
+                  <Image url="file::../../resources/transferencia-mental.png" />
                </image>
             </ImageView>
             <Button id="btnComenzar" layoutX="59.0" layoutY="603.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="215.0" stylesheets="@application.css" text="¡Comenzar!">
@@ -66,7 +66,7 @@
             </Button>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="97.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@robot%20(2).png" />
+                  <Image url="file::../../resources/automata.png" />
                </image>
             </ImageView>
             <Pane id="barraLateral" layoutX="337.0" layoutY="1.0" prefHeight="712.0" prefWidth="16.0" stylesheets="@application.css" />

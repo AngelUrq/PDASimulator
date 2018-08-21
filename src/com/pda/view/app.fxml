@@ -26,7 +26,7 @@
       <Button id="btn_cargar" layoutX="394.0" layoutY="415.0" mnemonicParsing="false" onAction="#btnCargarPresionado" prefHeight="31.0" prefWidth="200.0" stylesheets="@application.css" text="Cargar autómata" />
       <ImageView id="img_fondo" fitHeight="189.0" fitWidth="252.0" layoutX="400.0" layoutY="84.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@robot.png" />
+            <Image url="file::../../resources/logo.png"/>
          </image>
          <effect>
             <Blend />
@@ -34,7 +34,7 @@
       </ImageView>
       <ImageView fitHeight="80.0" fitWidth="200.0" layoutX="395.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@logoAutomatas.jpg" />
+            <Image url="file::../../resources/logoAutomatas.jpg" />
          </image>
       </ImageView>
       </children>
