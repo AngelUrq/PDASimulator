@@ -37,3 +37,21 @@
     -fx-scale-x: 0;
     -fx-background-color: #357A86;
 }
+
+#panelPrincipal{
+	-fx-background-color: #357A86;
+}
+
+#panelLateral{
+	-fx-background-color: white;
+}
+
+#barraLateral{
+	-fx-background-color: #357A86;
+}
+
+#btnComenzar{
+	-fx-background-radius: 30;
+    -fx-background-insets: 0,1,1;
+    -fx-text-fill: black;
+}

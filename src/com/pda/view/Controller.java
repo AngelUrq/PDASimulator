@@ -8,8 +8,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -20,6 +25,9 @@ public class Controller {
 
 	@FXML
 	private ScrollPane listaScroll;
+	
+	@FXML
+	private AnchorPane panelPrincipal;
 
 	@FXML
 	public void initialize() {
@@ -46,8 +54,11 @@ public class Controller {
 	}
 
 	@FXML	
-	public void btnCrearPresionado(ActionEvent event) {
-
+	public void btnCrearPresionado(ActionEvent event) throws IOException {
+		Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("formularioDefinicionFormal.fxml"));
+		Scene nuevaEscena = new Scene(pane);
+		Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
+		ventana.setScene(nuevaEscena);
 	}
 
 	@FXML	
