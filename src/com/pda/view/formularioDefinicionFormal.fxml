@@ -9,20 +9,20 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="panelPrincipal" prefHeight="700.0" prefWidth="1044.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane id="panelPrincipal" prefHeight="700.0" prefWidth="1044.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pda.view.ControllerDefinicionFormal">
    <children>
       <Label layoutX="136.0" layoutY="80.0" text="Definición formal del autómata" textFill="#f2eeee">
          <font>
             <Font name="Century Gothic" size="29.0" />
          </font>
       </Label>
-      <TextField layoutX="194.0" layoutY="181.0" prefHeight="31.0" prefWidth="384.0" />
-      <TextField layoutX="194.0" layoutY="341.0" prefHeight="31.0" prefWidth="384.0" />
-      <TextField layoutX="194.0" layoutY="257.0" prefHeight="31.0" prefWidth="384.0" />
-      <TextField layoutX="194.0" layoutY="417.0" prefHeight="31.0" prefWidth="384.0" />
-      <TextField layoutX="194.0" layoutY="493.0" prefHeight="31.0" prefWidth="384.0" />
-      <TextField layoutX="194.0" layoutY="582.0" prefHeight="31.0" prefWidth="384.0" />
-      <Label layoutX="74.0" layoutY="145.0" text="Conjunto de estados:" textFill="#f2eeee">
+      <TextField   layoutX="194.0" layoutY="181.0" prefHeight="31.0" prefWidth="384.0" fx:id="txt1" />
+      <TextField   layoutX="194.0" layoutY="341.0" prefHeight="31.0" prefWidth="384.0" fx:id="txt2"/>
+      <TextField  layoutX="194.0" layoutY="257.0" prefHeight="31.0" prefWidth="384.0"  fx:id="txt3" />
+      <TextField  layoutX="194.0" layoutY="417.0" prefHeight="31.0" prefWidth="384.0"  fx:id="txt4"/>
+      <TextField  layoutX="194.0" layoutY="493.0" prefHeight="31.0" prefWidth="384.0"  fx:id="txt5"/>
+      <TextField   layoutX="194.0" layoutY="582.0" prefHeight="31.0" prefWidth="384.0" fx:id="txt6" />
+      <Label   layoutX="74.0" layoutY="145.0" text="Conjunto de estados:" textFill="#f2eeee" >
          <font>
             <Font name="Century Gothic" size="16.0" />
          </font>
@@ -59,7 +59,7 @@
                   <Image url="file::../../resources/transferencia-mental.png" />
                </image>
             </ImageView>
-            <Button id="btnComenzar" layoutX="59.0" layoutY="603.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="215.0" stylesheets="@application.css" text="¡Comenzar!">
+            <Button id="btnComenzar" onAction = "#btnComenzarPresionado"  layoutX="59.0" layoutY="603.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="215.0" stylesheets="@application.css" text="¡Comenzar!">
                <font>
                   <Font name="Century Gothic" size="15.0" />
                </font>
