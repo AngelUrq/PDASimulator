@@ -11,8 +11,14 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class ControllerDefinicionFormal {
 
@@ -32,6 +38,13 @@ public class ControllerDefinicionFormal {
 
 	@FXML	
 	public void btnComenzarPresionado(ActionEvent event) throws IOException {		
+		txt_estados.setText("q0,q1,q2");
+		txt_alfabeto_entrada.setText("a,b,c");
+		txt_alfabeto_pila.setText("z0,A,B,C");
+		txt_estado_inicial.setText("q0");
+		txt_simbolo_inicial_pila.setText("z0");
+		txt_estados_aceptados.setText("q2");
+		
 		String estados = txt_estados.getText().toString().replaceAll("\\s", "");
 		String alfabetoEntrada = txt_alfabeto_entrada.getText().toString().replaceAll("\\s", "");
 		String alfabetoPila = txt_alfabeto_pila.getText().toString().replaceAll("\\s", "");
@@ -89,11 +102,11 @@ public class ControllerDefinicionFormal {
 
 			if(!contiene(listaAlfabetoPila, simboloInicialPila)) {
 				segunda_validacion = false;
-				Mensaje.mostrarError("El símbolo inicial de la pila no pertenece al alfabeto de pila");
+				Mensaje.mostrarError("El simbolo inicial de la pila no pertenece al alfabeto de pila");
 			}
 
 			if(segunda_validacion) {
-				Mensaje.mostrarMensaje("¡Datos aceptados!");
+				Mensaje.mostrarMensaje("Datos aceptados");
 				
 				FileWriter fichero = null;
 				PrintWriter pw = null;
@@ -119,6 +132,11 @@ public class ControllerDefinicionFormal {
 					}
 				}	
 			}
+			
+			Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
+			Scene nuevaEscena = new Scene(pane);
+			Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
+			ventana.setScene(nuevaEscena);
 		} else {
 			Mensaje.mostrarError("Datos incorrectos");
 		}

@@ -7,7 +7,7 @@ public class Mensaje {
 
 	public static void mostrarMensaje(String mensaje) {
 		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Información");
+		alert.setTitle("Informacion");
 		alert.setHeaderText(null);
 		alert.setContentText(mensaje);
 

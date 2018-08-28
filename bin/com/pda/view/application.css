@@ -51,3 +51,7 @@
     -fx-background-insets: 0,1,1;
     -fx-text-fill: black;
 }
+
+#paneFondo{
+	-fx-background-color: #357A86;
+}
