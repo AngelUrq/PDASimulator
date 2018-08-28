@@ -6,13 +6,18 @@ import java.io.IOException;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 
 public class ControllerDefinicionFormal {
 
-	
 	@FXML  TextField txt1;
 	@FXML  TextField txt2;
 	@FXML  TextField txt3;
@@ -21,9 +26,6 @@ public class ControllerDefinicionFormal {
 	@FXML  TextField txt6;
 
 	@FXML  Button btnComenzar;
-		
-		
-
 	
 	@FXML	
 	public void btnComenzarPresionado(ActionEvent event) throws IOException {
@@ -37,10 +39,14 @@ public class ControllerDefinicionFormal {
 		txtArray[4] = txt5;
 		txtArray[5] = txt6;
 
-		
 		String Filename = "Aqui_pongan_el_nombre_que_quieran.txt";
 		BufferedWriter bw = null;
 		FileWriter fw = null;
+	
+		Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
+		Scene nuevaEscena = new Scene(pane);
+		Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
+		ventana.setScene(nuevaEscena);
 		
 		for(int i = 0; i < txtArray.length; i++) {
 			
@@ -53,9 +59,7 @@ public class ControllerDefinicionFormal {
 				bw.write(content);
 				bw.newLine();
 
-
 				System.out.println("Done" + " " + txtArray[i].getText());
-
 			} catch (IOException e) {
 
 				e.printStackTrace();

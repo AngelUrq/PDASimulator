@@ -55,7 +55,7 @@ public class Controller {
 
 	@FXML	
 	public void btnCrearPresionado(ActionEvent event) throws IOException {
-		Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("formularioDefinicionFormal.fxml"));
+		Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmDefinicionFormal.fxml"));
 		Scene nuevaEscena = new Scene(pane);
 		Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
 		ventana.setScene(nuevaEscena);
