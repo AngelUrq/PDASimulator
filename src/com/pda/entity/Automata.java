@@ -1,9 +1,7 @@
-package com.pda.control;
+package com.pda.entity;
 
 import java.util.ArrayList;
 import java.util.Stack;
-
-import com.pda.entity.Regla;
 
 public class Automata {
 	
@@ -14,11 +12,11 @@ public class Automata {
 	private ArrayList<String> estadosIniciales;
 	private ArrayList<String> alfabetoPila;
 	private ArrayList<String> estadosAceptacion;
-	private Stack pila;
+	private Stack<String> pila;
 	
 	public Automata(ArrayList<Regla> reglas, String estadoActual, ArrayList<String> estados,
 			ArrayList<String> alfabetoEntrada, ArrayList<String> estadosIniciales, ArrayList<String> alfabetoPila,
-			ArrayList<String> estadosAceptacion, Stack pila) {
+			ArrayList<String> estadosAceptacion, Stack<String> pila) {
 		this.reglas = reglas;
 		this.estadoActual = estadoActual;
 		this.estados = estados;
@@ -85,11 +83,12 @@ public class Automata {
 		this.estadosAceptacion = estadosAceptacion;
 	}
 	
-	public Stack getPila() {
+	public Stack<String> getPila() {
 		return pila;
 	}
 	
-	public void setPila(Stack pila) {
+	public void setPila(Stack<String> pila) {
 		this.pila = pila;
 	}
+	
 }
