@@ -30,6 +30,8 @@ public class ControllerDefinicionFormal {
 	@FXML private TextField txt_estados_aceptados;
 
 	@FXML  Button btnComenzar;
+	
+	public static String archivo;
 
 	@FXML
 	public void initialize() {
@@ -114,6 +116,7 @@ public class ControllerDefinicionFormal {
 				{
 					int r = new Random().nextInt(10000);
 					fichero = new FileWriter("saves/fichero" + r + ".txt");
+					ControllerDefinicionFormal.archivo = "saves/fichero" + r + ".txt";
 					pw = new PrintWriter(fichero);
 					pw.println(estados);
 					pw.println(alfabetoEntrada);
@@ -150,8 +153,6 @@ public class ControllerDefinicionFormal {
 				contiene = true;
 			}
 		}
-
 		return contiene;
 	}
-
 }
