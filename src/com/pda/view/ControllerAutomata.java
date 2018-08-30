@@ -125,14 +125,14 @@ public class ControllerAutomata {
 				Label fin = new Label();
 				Label [] separadores = new Label[4];
 				
-				Font tamaño = new Font(30);
+				Font tam = new Font(30);
 				
 				int columnaSeparador = 2;
 				
 				for(int i = 0; i < separadores.length; i++) {
 					separadores[i] = new Label();
 					separadores[i].setText(",");
-					separadores[i].setFont(tamaño);
+					separadores[i].setFont(tam);
 					separadores[i].setPrefWidth(16);
 					
 					grid.add(separadores[i], columnaSeparador, tamReglas);
@@ -140,9 +140,9 @@ public class ControllerAutomata {
 				}
 
 				inicio.setText("<");
-				inicio.setFont(tamaño);
+				inicio.setFont(tam);
 				fin.setText(">");
-				fin.setFont(tamaño);
+				fin.setFont(tam);
 				
 				txt = new TextField[5];
 				
@@ -171,10 +171,10 @@ public class ControllerAutomata {
 				listaReglas.setContent(grid);
 				System.out.println("Fila: " + tamReglas++);
 			} else {
-				Mensaje.mostrarAdvertencia("Debes ingresar datos que pertenezcan a la definición formal");
+				Mensaje.mostrarAdvertencia("Debes ingresar datos que pertenezcan a la definicion formal");
 			}
 		} else {
-			Mensaje.mostrarError("¡Debes ingresar datos!");
+			Mensaje.mostrarError("Debes ingresar datos!");
 		}
 	}
 	

@@ -1,4 +1,4 @@
-package com.pda.view;
+package com.pda.entity;
 
 public class Regla {
 

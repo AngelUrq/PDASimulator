@@ -1,7 +1,9 @@
-package com.pda.view;
+package com.pda.control;
 
 import java.util.ArrayList;
 import java.util.Stack;
+
+import com.pda.entity.Regla;
 
 public class Automata {
 	
