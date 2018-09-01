@@ -9,10 +9,13 @@ import java.util.ArrayList;
 
 import javax.swing.plaf.synth.SynthSpinnerUI;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
@@ -47,11 +50,30 @@ public class ControllerAutomata {
 	private String simboloInicialPila;
 	private String [] listaEstadosAceptacion;
 	
+	
+	
+	//LÃ³gica para la visualizaciÃ³n de la pila
+	
+			@FXML private ScrollPane panePila;
+				  private ListView<String> objetosPila = new ListView<String>();
+				  private ObservableList<String> list = FXCollections.observableArrayList();
+
+	
 	@FXML
 	public void initialize() {
 		tamReglas = 0;
 		grid = new GridPane();
 		palabras = new ArrayList<String>();
+		
+		
+		list.add(0,"Zo");
+		objetosPila.setItems(list);
+		panePila.setContent(objetosPila);
+		objetosPila.setTranslateX(75);
+		objetosPila.setTranslateY(425);
+		String[] palabras = {"B","A","B","A","A"};
+		dibujarPila(palabras);
+
 	}
 	
 	@FXML
@@ -125,14 +147,14 @@ public class ControllerAutomata {
 				Label fin = new Label();
 				Label [] separadores = new Label[4];
 				
-				Font tamaño = new Font(30);
+				Font tamano = new Font(30);
 				
 				int columnaSeparador = 2;
 				
 				for(int i = 0; i < separadores.length; i++) {
 					separadores[i] = new Label();
 					separadores[i].setText(",");
-					separadores[i].setFont(tamaño);
+					separadores[i].setFont(tamano);
 					separadores[i].setPrefWidth(16);
 					
 					grid.add(separadores[i], columnaSeparador, tamReglas);
@@ -140,9 +162,9 @@ public class ControllerAutomata {
 				}
 
 				inicio.setText("<");
-				inicio.setFont(tamaño);
+				inicio.setFont(tamano);
 				fin.setText(">");
-				fin.setFont(tamaño);
+				fin.setFont(tamano);
 				
 				txt = new TextField[5];
 				
@@ -171,10 +193,10 @@ public class ControllerAutomata {
 				listaReglas.setContent(grid);
 				System.out.println("Fila: " + tamReglas++);
 			} else {
-				Mensaje.mostrarAdvertencia("Debes ingresar datos que pertenezcan a la definición formal");
+				Mensaje.mostrarAdvertencia("Debes ingresar datos que pertenezcan a la definiciï¿½n formal");
 			}
 		} else {
-			Mensaje.mostrarError("¡Debes ingresar datos!");
+			Mensaje.mostrarError("ï¿½Debes ingresar datos!");
 		}
 	}
 	
@@ -185,4 +207,26 @@ public class ControllerAutomata {
 			System.out.println();
 		}	
 	}
+	
+public void dibujarPila(String[] palabras) {
+		
+
+		
+		for(int i = 0; i < palabras.length; i++) {
+			
+			
+			list.add(0,palabras[i]);
+
+		}
+		
+		objetosPila.setItems(list);
+		panePila.setContent(objetosPila);
+		borrarPila();
+
+	}
+	
+	public void borrarPila() {
+		list.remove(0);
+	}
+
 }
