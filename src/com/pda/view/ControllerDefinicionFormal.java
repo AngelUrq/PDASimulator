@@ -40,12 +40,12 @@ public class ControllerDefinicionFormal {
 
 	@FXML	
 	public void btnComenzarPresionado(ActionEvent event) throws IOException {		
-		txt_estados.setText("q0,q1,q2");
-		txt_alfabeto_entrada.setText("a,b,c");
-		txt_alfabeto_pila.setText("z0,A,B,C");
-		txt_estado_inicial.setText("q0");
-		txt_simbolo_inicial_pila.setText("z0");
-		txt_estados_aceptados.setText("q2");
+		//txt_estados.setText("q0,q1,q2");
+		//txt_alfabeto_entrada.setText("a,b,c");
+		//txt_alfabeto_pila.setText("z0,A,B,C");
+		//txt_estado_inicial.setText("q0");
+		//txt_simbolo_inicial_pila.setText("z0");
+		//txt_estados_aceptados.setText("q2");
 		
 		String estados = txt_estados.getText().toString().replaceAll("\\s", "");
 		String alfabetoEntrada = txt_alfabeto_entrada.getText().toString().replaceAll("\\s", "");
@@ -135,7 +135,6 @@ public class ControllerDefinicionFormal {
 					}
 				}	
 			}
-			
 			Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
 			Scene nuevaEscena = new Scene(pane);
 			Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
@@ -155,4 +154,5 @@ public class ControllerDefinicionFormal {
 		}
 		return contiene;
 	}
+	
 }

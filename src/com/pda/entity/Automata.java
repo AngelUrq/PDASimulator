@@ -6,7 +6,6 @@ import java.util.Stack;
 public class Automata {
 	
 	private ArrayList<Regla> reglas;
-	private String estadoActual;
 	private ArrayList<String> estados;
 	private ArrayList<String> alfabetoEntrada;
 	private ArrayList<String> estadosIniciales;
@@ -14,11 +13,10 @@ public class Automata {
 	private ArrayList<String> estadosAceptacion;
 	private Stack<String> pila;
 	
-	public Automata(ArrayList<Regla> reglas, String estadoActual, ArrayList<String> estados,
-			ArrayList<String> alfabetoEntrada, ArrayList<String> estadosIniciales, ArrayList<String> alfabetoPila,
-			ArrayList<String> estadosAceptacion, Stack<String> pila) {
+	public Automata(ArrayList<Regla> reglas, ArrayList<String> estados, ArrayList<String> alfabetoEntrada,
+			ArrayList<String> estadosIniciales, ArrayList<String> alfabetoPila, ArrayList<String> estadosAceptacion,
+			Stack<String> pila) {
 		this.reglas = reglas;
-		this.estadoActual = estadoActual;
 		this.estados = estados;
 		this.alfabetoEntrada = alfabetoEntrada;
 		this.estadosIniciales = estadosIniciales;
@@ -26,7 +24,7 @@ public class Automata {
 		this.estadosAceptacion = estadosAceptacion;
 		this.pila = pila;
 	}
-	
+
 	public ArrayList<Regla> getReglas() {
 		return reglas;
 	}
@@ -34,15 +32,7 @@ public class Automata {
 	public void setReglas(ArrayList<Regla> reglas) {
 		this.reglas = reglas;
 	}
-	
-	public String getEstadoActual() {
-		return estadoActual;
-	}
-	
-	public void setEstadoActual(String estadoActual) {
-		this.estadoActual = estadoActual;
-	}
-	
+
 	public ArrayList<String> getEstados() {
 		return estados;
 	}

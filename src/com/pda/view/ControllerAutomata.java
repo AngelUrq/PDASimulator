@@ -40,12 +40,12 @@ public class ControllerAutomata {
 	
 	private ControllerDefinicionFormal definicionFormal;
 	
-	private String [] listaEstados;
-	private String [] listaAlfabeto;
-	private String [] listaAlfabetoPila;
-	private String [] listaEstadosIniciales;
+	private String[] listaEstados;
+	private String[] listaAlfabeto;
+	private String[] listaAlfabetoPila;
+	private String[] listaEstadosIniciales;
 	private String simboloInicialPila;
-	private String [] listaEstadosAceptacion;
+	private String[] listaEstadosAceptacion;
 	
 	@FXML
 	public void initialize() {
