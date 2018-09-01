@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.plaf.synth.SynthSpinnerUI;
 
@@ -50,6 +51,8 @@ public class ControllerAutomata {
 	private String simboloInicialPila;
 	private String [] listaEstadosAceptacion;
 	
+	private Automata automata ;
+	
 	
 	
 	//Lógica para la visualización de la pila
@@ -65,14 +68,38 @@ public class ControllerAutomata {
 		grid = new GridPane();
 		palabras = new ArrayList<String>();
 		
+		String simboloInicial = "";
 		
-		list.add(0,"Zo");
+		//Le coloca al autómata todos sus atributos, dejándolo listo para la recibir reglas 
+		
+		BufferedReader br = null;
+		FileReader fr = null;
+		try {
+			fr = new FileReader(ControllerDefinicionFormal.archivo);
+			br = new BufferedReader(fr);
+		
+			automata = new Automata();
+
+			automata.setEstados(convertir(br.readLine().split(",")));
+			automata.setAlfabetoEntrada(convertir((br.readLine()).split(",")));
+			automata.setAlfabetoPila(convertir((br.readLine()).split(",")));
+			automata.setEstadosIniciales(convertir((br.readLine()).split(",")));
+			simboloInicial = (br.readLine());
+			automata.setEstadosAceptacion(convertir((br.readLine()).split(",")));	
+			
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			
+		}
+		
+		//Añade la pila gráfica y la acomoda en su sitio
+		
+		list.add(0,simboloInicial);
 		objetosPila.setItems(list);
 		panePila.setContent(objetosPila);
 		objetosPila.setTranslateX(75);
-		objetosPila.setTranslateY(425);
-		String[] palabras = {"B","A","B","A","A"};
-		dibujarPila(palabras);
+		objetosPila.setTranslateY(525);		
 
 	}
 	
@@ -96,7 +123,9 @@ public class ControllerAutomata {
 				listaAlfabetoPila = (br.readLine()).split(",");
 				listaEstadosIniciales = (br.readLine()).split(",");
 				simboloInicialPila = br.readLine();
-				listaEstadosAceptacion = (br.readLine()).split(",");		
+				listaEstadosAceptacion = (br.readLine()).split(",");	
+				
+			
 			}
 			
 		} catch (IOException e) {
@@ -208,25 +237,25 @@ public class ControllerAutomata {
 		}	
 	}
 	
-public void dibujarPila(String[] palabras) {
+	public void dibujarPila(String[] palabras) {
 		
-
-		
-		for(int i = 0; i < palabras.length; i++) {
-			
-			
+		for(int i = 0; i < palabras.length; i++) {	
 			list.add(0,palabras[i]);
-
 		}
-		
 		objetosPila.setItems(list);
 		panePila.setContent(objetosPila);
-		borrarPila();
-
+		objetosPila.setTranslateY(objetosPila.getTranslateY()-25*palabras.length);
 	}
 	
 	public void borrarPila() {
 		list.remove(0);
+		objetosPila.setTranslateY(objetosPila.getTranslateY()+25);
+	}
+	
+	public ArrayList<String> convertir(String[] string) {
+		
+		ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(string));		
+		return arrayList;
 	}
 
 }

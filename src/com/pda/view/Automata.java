@@ -27,6 +27,10 @@ public class Automata {
 		this.pila = pila;
 	}
 	
+	public Automata() {
+		// Constructor vacio para poder instanciarlo con más comodidad en a logica
+	}
+
 	public ArrayList<Regla> getReglas() {
 		return reglas;
 	}

@@ -1,6 +1,7 @@
-q0,q1,q2
-a,b,c
-z0,A,B,C
-q0
-z0
-q2
+q0,q1,q2  estados						0
+a,b,c	  alfabeto de entrada			1
+z0,A,B,C  alfabeto de pila				2
+q0        estado inicial automata		
+z0        simbolo inicial pila			4
+q2        conjunto de estados finales	5
+---
