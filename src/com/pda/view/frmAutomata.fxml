@@ -58,11 +58,11 @@
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="421.0" prefWidth="467.0" />
         </content>
       </ScrollPane>
-      <MenuBar layoutY="-2.0" prefHeight="27.0" prefWidth="1095.0">
+      <MenuBar  layoutY="-2.0" prefHeight="27.0" prefWidth="1095.0">
         <menus>
-          <Menu mnemonicParsing="false" text="Archivo">
+          <Menu fx:id="menu" mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" text="Editar definición" />
+              <MenuItem mnemonicParsing="false" onAction="#irADefFormal" text="Editar definición" />
                   <MenuItem mnemonicParsing="false" text="Guardar autómata" />
             </items>
           </Menu>
@@ -76,13 +76,11 @@
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="547.0" prefWidth="394.0" />
                </content>
             </ScrollPane>
-            <Button id="btnAtrasAutomata" fx:id="btnAtras" layoutX="89.0" layoutY="651.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" stylesheets="@application.css" text="Atrás" />
-            <Button id="btnMostrar" fx:id="btnMostrar" layoutX="197.0" layoutY="651.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="95.0" stylesheets="@application.css" text="Siguiente" />
-            <Button id="btnFinal" layoutX="314.0" layoutY="651.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="95.0" stylesheets="@application.css" text="Final" />
          </children>
       </Pane>
       <TextField fx:id="txtPalabraEntrada" layoutX="237.0" layoutY="74.0" prefHeight="31.0" prefWidth="232.0" />
       <Label layoutX="81.0" layoutY="75.0" text="Palabra de entrada:" />
+       <Button id="btnLeerPalabra" layoutX="500.0" layoutY="72.0" mnemonicParsing="false" onAction="#leerPalabra" prefHeight="35.0" prefWidth="95.0" stylesheets="@application.css" text="Leer palabra" />
       <Button fx:id="btnGuardarReglas" layoutX="250.0" layoutY="674.0" mnemonicParsing="false" onAction="#btnGuardarReglas" prefHeight="35.0" prefWidth="115.0" text="Guardar" />
    </children>
 </AnchorPane>

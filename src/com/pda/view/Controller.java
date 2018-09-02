@@ -7,11 +7,13 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
@@ -46,6 +48,39 @@ public class Controller {
 				Button button = new Button(listOfFiles[r].getName());
 				button.setPrefWidth(listaScroll.getPrefWidth());
 				button.setStyle("-fx-background-color: #357A86; -fx-text-fill: white; -fx-padding: 15px");
+			    button.setOnAction(new EventHandler<ActionEvent>() {
+		            @Override
+		            public void handle(ActionEvent event) {
+		            		//Abre la ventana de definición formal con los datos del archivo presionado
+		            	String fileName = button.getText();
+		            	
+		            	FXMLLoader loader = new FXMLLoader();
+		            	
+		        		loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
+		        		
+		        		try {
+		        			
+		        		loader.load();	
+		        			
+		        		}catch(IOException ex){
+
+		        			System.out.println("¡Témpanos de hielo!");
+		        		}
+		        		
+		        		ControllerDefinicionFormal display = loader.getController();
+		        		
+		        		display.ponerTextoAlCargar(fileName);
+		        		
+		        		Parent p = loader.getRoot();
+		        		Stage stage = new Stage();
+		        		stage.setScene(new Scene(p));
+		        		stage.showAndWait();
+		            	
+		        		
+		            	
+		            	
+		            }
+		        });
 				grid.add(button, 1, r);
 			}
 		}
@@ -65,7 +100,7 @@ public class Controller {
 	public void btnCargarPresionado(ActionEvent event) {
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(new Stage());
-		if (file != null) {
+		if (file != null && formatoValido(file)) {
 			open(file);
 		}
 	}
@@ -76,6 +111,17 @@ public class Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public boolean formatoValido(File file) {
+		
+		String nombre = file.getName().substring(0, 8);
+		System.out.println(nombre);
+		if(nombre.equals("automata")) {
+			return true;
+		}
+		new Alert(Alert.AlertType.ERROR, "Fórmato del archivo inválido").showAndWait();
+		return false;
 	}
 
 }

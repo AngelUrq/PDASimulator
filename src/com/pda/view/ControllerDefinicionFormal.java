@@ -1,9 +1,13 @@
 package com.pda.view;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
@@ -28,24 +32,25 @@ public class ControllerDefinicionFormal {
 	@FXML private TextField txt_estado_inicial;
 	@FXML private TextField txt_simbolo_inicial_pila;
 	@FXML private TextField txt_estados_aceptados;
+	@FXML private Button btnComenzar;
 
-	@FXML  Button btnComenzar;
+
+		  private boolean archivoCargado;
+		  
+		  
 	
 	public static String archivo;
 
 	@FXML
 	public void initialize() {
-		System.out.println("Empezando");
+
+		archivoCargado = false;
+	
 	}
 
 	@FXML	
 	public void btnComenzarPresionado(ActionEvent event) throws IOException {		
-		txt_estados.setText("q0,q1,q2");
-		txt_alfabeto_entrada.setText("a,b,c");
-		txt_alfabeto_pila.setText("z0,A,B,C");
-		txt_estado_inicial.setText("q0");
-		txt_simbolo_inicial_pila.setText("z0");
-		txt_estados_aceptados.setText("q2");
+
 		
 		String estados = txt_estados.getText().toString().replaceAll("\\s", "");
 		String alfabetoEntrada = txt_alfabeto_entrada.getText().toString().replaceAll("\\s", "");
@@ -114,9 +119,19 @@ public class ControllerDefinicionFormal {
 				PrintWriter pw = null;
 				try
 				{
-					int r = new Random().nextInt(10000);
-					fichero = new FileWriter("saves/fichero" + r + ".txt");
-					ControllerDefinicionFormal.archivo = "saves/fichero" + r + ".txt";
+					
+					if(archivoCargado) {
+						
+						fichero = new FileWriter(ControllerDefinicionFormal.archivo);
+
+						
+					}else {
+						
+						int r = new Random().nextInt(10000);
+						fichero = new FileWriter("saves/automata" + r + ".txt");
+						ControllerDefinicionFormal.archivo = "saves/automata" + r + ".txt";
+						
+					}
 					pw = new PrintWriter(fichero);
 					pw.println(estados);
 					pw.println(alfabetoEntrada);
@@ -124,6 +139,8 @@ public class ControllerDefinicionFormal {
 					pw.println(estadoInicial);
 					pw.println(simboloInicialPila);
 					pw.println(estadosAceptados);
+					
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
@@ -154,5 +171,37 @@ public class ControllerDefinicionFormal {
 			}
 		}
 		return contiene;
+	}
+	
+	
+	public void ponerTextoAlCargar(String nombreArchivo) {
+		
+		//Coloca el texto en los TextField para poder editar
+		BufferedReader br = null;
+		FileReader fr = null;
+		try {
+			fr = new FileReader("saves/" + nombreArchivo);
+			br = new BufferedReader(fr);
+		
+			 txt_estados.setText(br.readLine());;
+			 txt_alfabeto_entrada.setText(br.readLine());;
+			 txt_alfabeto_pila.setText(br.readLine());
+			 txt_estado_inicial.setText(br.readLine());;
+			 txt_simbolo_inicial_pila.setText(br.readLine());;
+			 txt_estados_aceptados.setText(br.readLine());;
+			 
+				ControllerDefinicionFormal.archivo = "saves/" + nombreArchivo;
+				
+				archivoCargado = true;
+
+			
+		} catch (IOException e) {
+
+			e.printStackTrace();
+			
+		}
+		
+		
+		
 	}
 }
