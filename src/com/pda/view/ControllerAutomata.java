@@ -1,12 +1,21 @@
 package com.pda.view;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 import javax.swing.plaf.synth.SynthSpinnerUI;
 
@@ -21,63 +30,71 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.RowConstraints;
 
 public class ControllerAutomata {
 
 	@FXML private Button btnAnadir;
 	@FXML private Button btnGuardarReglas;
-	
+
 	@FXML private TextField txtEstadoActual;
 	@FXML private TextField txtEntrada;
 	@FXML private TextField txtCimaPila;
 	@FXML private TextField txtEstadoNuevo;
 	@FXML private TextField txtAccion;
 	@FXML private TextField [] txt;
-	
+
 	@FXML private ScrollPane listaReglas;
-	
+
 	private int tamReglas;
-	
+
 	private GridPane grid;
-	
+
 	private ArrayList<String> palabras;
-	
+
 	private ControllerDefinicionFormal definicionFormal;
-	
+
+	private ArrayList<Regla> reglas;
+
 	private String [] listaEstados;
 	private String [] listaAlfabeto;
 	private String [] listaAlfabetoPila;
 	private String [] listaEstadosIniciales;
 	private String simboloInicialPila;
 	private String [] listaEstadosAceptacion;
-	
-	private Automata automata ;
-	
-	
-	
-	//Lógica para la visualización de la pila
-	
-			@FXML private ScrollPane panePila;
-				  private ListView<String> objetosPila = new ListView<String>();
-				  private ObservableList<String> list = FXCollections.observableArrayList();
 
-	
+	private Automata automata ;
+
+	private BufferedReader br;
+	private FileReader fr;
+
+	//Lógica para la visualización de la pila
+
+	@FXML private ScrollPane panePila;
+	private ListView<String> objetosPila = new ListView<String>();
+	private ObservableList<String> list = FXCollections.observableArrayList();
+
+
 	@FXML
 	public void initialize() {
 		tamReglas = 0;
 		grid = new GridPane();
 		palabras = new ArrayList<String>();
-		
+		reglas = new ArrayList<Regla>();
+
 		String simboloInicial = "";
-		
+		leerTexto();
+		br = null;
+		fr = null;
+
 		//Le coloca al autómata todos sus atributos, dejándolo listo para la recibir reglas 
-		
-		BufferedReader br = null;
+
+		/*BufferedReader br = null;
 		FileReader fr = null;
 		try {
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
-		
+
 			automata = new Automata();
 
 			automata.setEstados(convertir(br.readLine().split(",")));
@@ -86,15 +103,15 @@ public class ControllerAutomata {
 			automata.setEstadosIniciales(convertir((br.readLine()).split(",")));
 			simboloInicial = (br.readLine());
 			automata.setEstadosAceptacion(convertir((br.readLine()).split(",")));	
-			
+
 		} catch (IOException e) {
 
 			e.printStackTrace();
-			
-		}
-		
+
+		}*/
+
 		//Añade la pila gráfica y la acomoda en su sitio
-		
+
 		list.add(0,simboloInicial);
 		objetosPila.setItems(list);
 		panePila.setContent(objetosPila);
@@ -102,15 +119,8 @@ public class ControllerAutomata {
 		objetosPila.setTranslateY(525);		
 
 	}
-	
-	@FXML
-	public void btnAnadirPresionado(ActionEvent event) throws IOException {
-		boolean validarEstados = false;
-		boolean validarEntradas = false;
-		boolean validarAlfabetoPila = false;
-		
-		BufferedReader br = null;
-		FileReader fr = null;
+
+	public void leerTexto() {
 		try {
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
@@ -123,139 +133,184 @@ public class ControllerAutomata {
 				listaAlfabetoPila = (br.readLine()).split(",");
 				listaEstadosIniciales = (br.readLine()).split(",");
 				simboloInicialPila = br.readLine();
-				listaEstadosAceptacion = (br.readLine()).split(",");	
-				
-			
+				listaEstadosAceptacion = (br.readLine()).split(",");
 			}
-			
+
 		} catch (IOException e) {
 
 			e.printStackTrace();
-			
 		}
-		
+	}
+
+	@FXML
+	public void btnAnadirPresionado(ActionEvent event) throws IOException {
+
 		String estadoActual = txtEstadoActual.getText();
 		String entrada = txtEntrada.getText();
 		String cimaPila = txtCimaPila.getText();
 		String estadoNuevo = txtEstadoNuevo.getText();
 		String accion = txtAccion.getText();	
-		
+
 		if(!estadoActual.toString().equals("") && !entrada.toString().equals("") && !cimaPila.toString().equals("") && !estadoNuevo.toString().equals("") && !accion.toString().equals("")) {
-			boolean validarEstadoInicial = false;
-			boolean validarEstadoFinal = false;
-			
-			for(int i = 0; i < listaEstados.length; i++) {
-				System.out.println(listaEstados[i] + "==" + estadoActual);
-				
-				if(listaEstados[i].equals(estadoActual)) {
-					validarEstadoInicial = true;
-				} 
-				if(listaEstados[i].equals(estadoNuevo)) {
-					validarEstadoFinal = true;
-				}
-			}
-			
-			if(validarEstadoInicial && validarEstadoFinal) {
-				validarEstados = true;
-			}
-			
-			for(int i = 0; i <  listaAlfabeto.length; i++) {
-				if(listaAlfabeto[i].equals(entrada)) {
-					validarEntradas = true;
-				}
-			}
-			
-			for(int i = 0; i < listaAlfabetoPila.length; i++) {
-				if(listaAlfabetoPila[i].equals(cimaPila)) {
-					validarAlfabetoPila = true;
-				}
-			}
-			
-			if(validarEstados && validarEntradas && validarAlfabetoPila) {
-				Label inicio = new Label();
-				Label fin = new Label();
-				Label [] separadores = new Label[4];
-				
-				Font tamano = new Font(30);
-				
-				int columnaSeparador = 2;
-				
-				for(int i = 0; i < separadores.length; i++) {
-					separadores[i] = new Label();
-					separadores[i].setText(",");
-					separadores[i].setFont(tamano);
-					separadores[i].setPrefWidth(16);
+
+			Regla regla;
+			boolean reglaRepetida = false;
+
+			if(validarReglas(estadoActual, entrada, cimaPila, estadoNuevo)) {
+
+				if(tamReglas > 0) {
 					
-					grid.add(separadores[i], columnaSeparador, tamReglas);
-					columnaSeparador += 2;
+					for(int i = 0; i < reglas.size(); i++) {
+						if(i + 1 < reglas.size()) {
+							if(reglas.get(i + 1).getEstadoActual().equals(estadoActual) && reglas.get(i + 1).getEntrada().equals(entrada) && reglas.get(i + 1).getCimaPila().equals(cimaPila) && reglas.get(i + 1).getEstadoNuevo().equals(estadoNuevo)){
+								reglaRepetida = true;			
+								}
+						}
+					}
 				}
 
-				inicio.setText("<");
-				inicio.setFont(tamano);
-				fin.setText(">");
-				fin.setFont(tamano);
-				
-				txt = new TextField[5];
-				
-				for(int i = 0; i < txt.length; i++) {
-					txt[i] = new TextField();
+				if(!reglaRepetida) {
+					Label inicio = new Label();
+					Label fin = new Label();
+					Label [] separadores = new Label[4];
+
+					Font tamano = new Font(30);
+
+					int columnaSeparador = 2;
+
+					for(int i = 0; i < separadores.length; i++) {
+						separadores[i] = new Label();
+						separadores[i].setText(",");
+						separadores[i].setFont(tamano);
+						separadores[i].setPrefWidth(16);
+
+						grid.add(separadores[i], columnaSeparador, tamReglas);
+						columnaSeparador += 2;
+					}
+
+					inicio.setText("<");
+					inicio.setFont(tamano);
+					fin.setText(">");
+					fin.setFont(tamano);
+
+					txt = new TextField[5];
+
+					for(int i = 0; i < txt.length; i++) {
+						txt[i] = new TextField();
+					}
+
+					txt[0].setText(estadoActual.toString());
+					txt[1].setText(entrada.toString());
+					txt[2].setText(cimaPila.toString());
+					txt[3].setText(estadoNuevo.toString());
+					txt[4].setText(accion.toString());
+
+					int columnaInicio = 0;
+					grid.add(inicio, columnaInicio, tamReglas);
+
+					int columnaFinal = 10;
+					grid.add(fin, columnaFinal, tamReglas);
+
+					for(int i = 0; i < txt.length; i++) {
+						txt[i].setPrefWidth(70);
+						grid.add(txt[i], 2 * i + 1, tamReglas);
+						palabras.add(txt[i].getText().toString());
+					}
+
+					listaReglas.setContent(grid);
+
+					regla = new Regla(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText(), txt[4].getText());
+
+					reglas.add(regla);
+
+					System.out.println("Fila: " + tamReglas++);
+
+					txtEstadoActual.setText("");
+					txtEntrada.setText("");
+					txtCimaPila.setText("");
+					txtEstadoNuevo.setText("");
+					txtAccion.setText("");	
+
+					try(FileWriter fw = new FileWriter(ControllerDefinicionFormal.archivo, true);
+							BufferedWriter bw = new BufferedWriter(fw);
+							PrintWriter out = new PrintWriter(bw))
+					{
+						out.println(regla.toString());
+					} catch (IOException e) {
+
+					}
+				} else {
+					Mensaje.mostrarError("No deben existir reglas repetidas");
 				}
-				
-				txt[0].setText(estadoActual.toString());
-				txt[1].setText(entrada.toString());
-				txt[2].setText(cimaPila.toString());
-				txt[3].setText(estadoNuevo.toString());
-				txt[4].setText(accion.toString());
-				
-				int columnaInicio = 0;
-				grid.add(inicio, columnaInicio, tamReglas);
-				
-				int columnaFinal = 10;
-				grid.add(fin, columnaFinal, tamReglas);
-			
-				for(int i = 0; i < txt.length; i++) {
-					txt[i].setPrefWidth(70);
-					grid.add(txt[i], 2 * i + 1, tamReglas);
-					palabras.add(txt[i].getText().toString());
-				}
-				
-				listaReglas.setContent(grid);
-				System.out.println("Fila: " + tamReglas++);
 			} else {
-				Mensaje.mostrarAdvertencia("Debes ingresar datos que pertenezcan a la definici�n formal");
+				Mensaje.mostrarAdvertencia("Debes ingresar datos que pertenezcan a la definicion formal");
 			}
 		} else {
-			Mensaje.mostrarError("�Debes ingresar datos!");
+			Mensaje.mostrarError("Debes ingresar datos");
 		}
 	}
-	
+
+
 	public void btnGuardarReglas(ActionEvent event) throws IOException {
 		System.out.println("Guardando...");
-		
+
 		for(int i = 0; i < palabras.size(); i++) {
 			System.out.println();
 		}	
 	}
-	
+
+	public boolean validarReglas(String estadoActual, String entrada, String cimaPila, String estadoNuevo) {
+		boolean entradasValidadas = false;
+		boolean validarEstados = false;
+		boolean validarEntradas = false;
+		boolean validarAlfabetoPila = false;
+		boolean validarEstadoInicial = false;
+		boolean validarEstadoFinal = false;
+
+		for(int i = 0; i < listaEstados.length; i++) {
+			if(listaEstados[i].equals(estadoActual)) {
+				validarEstadoInicial = true;
+			} 
+			if(listaEstados[i].equals(estadoNuevo)) {
+				validarEstadoFinal = true;
+			}
+		}
+		validarEstados = validarEstadoInicial && validarEstadoFinal;
+
+		for(int i = 0; i <  listaAlfabeto.length; i++) {
+			if(listaAlfabeto[i].equals(entrada)) {
+				validarEntradas = true;
+			}
+		}
+
+		for(int i = 0; i < listaAlfabetoPila.length; i++) {
+			if(listaAlfabetoPila[i].equals(cimaPila)) {
+				validarAlfabetoPila = true;
+			}
+		}
+
+		entradasValidadas = validarEstados && validarEntradas && validarAlfabetoPila;
+		return entradasValidadas;	
+	}
+
 	public void dibujarPila(String[] palabras) {
-		
+
 		for(int i = 0; i < palabras.length; i++) {	
 			list.add(0,palabras[i]);
 		}
 		objetosPila.setItems(list);
 		panePila.setContent(objetosPila);
-		objetosPila.setTranslateY(objetosPila.getTranslateY()-25*palabras.length);
+		objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
 	}
-	
+
 	public void borrarPila() {
 		list.remove(0);
-		objetosPila.setTranslateY(objetosPila.getTranslateY()+25);
+		objetosPila.setTranslateY(objetosPila.getTranslateY() + 25);
 	}
-	
+
 	public ArrayList<String> convertir(String[] string) {
-		
+
 		ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(string));		
 		return arrayList;
 	}
-
 }

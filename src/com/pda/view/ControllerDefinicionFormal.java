@@ -30,7 +30,7 @@ public class ControllerDefinicionFormal {
 	@FXML private TextField txt_estados_aceptados;
 
 	@FXML  Button btnComenzar;
-	
+
 	public static String archivo;
 
 	@FXML
@@ -46,7 +46,7 @@ public class ControllerDefinicionFormal {
 		txt_estado_inicial.setText("q0");
 		txt_simbolo_inicial_pila.setText("z0");
 		txt_estados_aceptados.setText("q2");
-		
+
 		String estados = txt_estados.getText().toString().replaceAll("\\s", "");
 		String alfabetoEntrada = txt_alfabeto_entrada.getText().toString().replaceAll("\\s", "");
 		String alfabetoPila = txt_alfabeto_pila.getText().toString().replaceAll("\\s", "");
@@ -82,11 +82,13 @@ public class ControllerDefinicionFormal {
 
 		if(validacion) {
 			String[] listaEstados = estados.split(",");
+			String[] listaAlfabetoEntrada = alfabetoEntrada.split(",");
 			String[] listaAlfabetoPila = alfabetoPila.split(",");
 			String[] listaEstadosIniciales = estadoInicial.split(",");
 			String[] listaEstadosAceptados = estadosAceptados.split(",");
 
 			boolean segunda_validacion = true;
+			boolean tercera_validacion = true;
 
 			for(int i = 0; i < listaEstadosIniciales.length; i++) {
 				if(!contiene(listaEstados, listaEstadosIniciales[i])) {
@@ -106,12 +108,38 @@ public class ControllerDefinicionFormal {
 				segunda_validacion = false;
 				Mensaje.mostrarError("El simbolo inicial de la pila no pertenece al alfabeto de pila");
 			}
-
-			if(segunda_validacion) {
+			
+			if(!palabraRepetida(listaEstados)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar estados repetidos");
+			}
+			
+			if(!palabraRepetida(listaAlfabetoEntrada)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+			
+			if(!palabraRepetida(listaAlfabetoPila)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+			
+			if(!palabraRepetida(listaEstadosIniciales)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+			
+			if(!palabraRepetida(listaEstadosAceptados)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+			
+			if(segunda_validacion && tercera_validacion) {
 				Mensaje.mostrarMensaje("Datos aceptados");
-				
+
 				FileWriter fichero = null;
 				PrintWriter pw = null;
+				
 				try
 				{
 					int r = new Random().nextInt(10000);
@@ -128,18 +156,18 @@ public class ControllerDefinicionFormal {
 					e.printStackTrace();
 				} finally {
 					try {
-						if (null != fichero)
+						if (null != fichero) {
 							fichero.close();
+						}
+						Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
+						Scene nuevaEscena = new Scene(pane);
+						Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
+						ventana.setScene(nuevaEscena);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}	
-			}
-			
-			Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
-			Scene nuevaEscena = new Scene(pane);
-			Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
-			ventana.setScene(nuevaEscena);
+			} 
 		} else {
 			Mensaje.mostrarError("Datos incorrectos");
 		}
@@ -154,5 +182,21 @@ public class ControllerDefinicionFormal {
 			}
 		}
 		return contiene;
+	}
+	
+	private boolean palabraRepetida(String[] lista) {
+		boolean contiene_repeticion = true;
+		for(int i = 0; i < lista.length; i++) {
+			String palabra = lista[i].toString();
+			int contador = 0;
+			while(contador < lista.length) {
+				if(lista[contador].equals(palabra) && i != contador) {
+					contiene_repeticion = false;
+					break;
+				}
+				contador++;
+			}
+		}
+		return contiene_repeticion;
 	}
 }

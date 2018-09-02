@@ -4,3 +4,4 @@ z0,A,B,C
 q0
 z0
 q2
+q0,a,A,q0,Z

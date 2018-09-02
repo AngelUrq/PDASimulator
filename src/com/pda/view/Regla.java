@@ -55,4 +55,12 @@ public class Regla {
 	public void setAccion(String accion) {
 		this.accion = accion;
 	}
+
+	@Override
+	public String toString() {
+		return estadoActual + "," + entrada + "," + cimaPila
+				+ "," + estadoNuevo + "," + accion;
+	}
+	
+	
 }
