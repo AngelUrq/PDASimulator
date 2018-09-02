@@ -34,24 +34,18 @@ public class ControllerDefinicionFormal {
 	@FXML private TextField txt_estados_aceptados;
 	@FXML private Button btnComenzar;
 
+	private boolean archivoCargado;
 
-		  private boolean archivoCargado;
-		  
-		  
-	
 	public static String archivo;
 
 	@FXML
 	public void initialize() {
-
 		archivoCargado = false;
-	
 	}
 
 	@FXML	
 	public void btnComenzarPresionado(ActionEvent event) throws IOException {		
 
-		
 		String estados = txt_estados.getText().toString().replaceAll("\\s", "");
 		String alfabetoEntrada = txt_alfabeto_entrada.getText().toString().replaceAll("\\s", "");
 		String alfabetoPila = txt_alfabeto_pila.getText().toString().replaceAll("\\s", "");
@@ -87,11 +81,13 @@ public class ControllerDefinicionFormal {
 
 		if(validacion) {
 			String[] listaEstados = estados.split(",");
+			String[] listaAlfabetoEntrada = alfabetoEntrada.split(",");
 			String[] listaAlfabetoPila = alfabetoPila.split(",");
 			String[] listaEstadosIniciales = estadoInicial.split(",");
 			String[] listaEstadosAceptados = estadosAceptados.split(",");
 
 			boolean segunda_validacion = true;
+			boolean tercera_validacion = true;
 
 			for(int i = 0; i < listaEstadosIniciales.length; i++) {
 				if(!contiene(listaEstados, listaEstadosIniciales[i])) {
@@ -112,25 +108,49 @@ public class ControllerDefinicionFormal {
 				Mensaje.mostrarError("El simbolo inicial de la pila no pertenece al alfabeto de pila");
 			}
 
-			if(segunda_validacion) {
+			if(!palabraRepetida(listaEstados)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar estados repetidos");
+			}
+
+			if(!palabraRepetida(listaAlfabetoEntrada)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+
+			if(!palabraRepetida(listaAlfabetoPila)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+
+			if(!palabraRepetida(listaEstadosIniciales)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+
+			if(!palabraRepetida(listaEstadosAceptados)) {
+				tercera_validacion = false;
+				Mensaje.mostrarError("No puedes ingresar simbolos repetidos");
+			}
+
+			if(segunda_validacion && tercera_validacion) {
 				Mensaje.mostrarMensaje("Datos aceptados");
-				
+
 				FileWriter fichero = null;
 				PrintWriter pw = null;
+
 				try
 				{
-					
 					if(archivoCargado) {
-						
+
 						fichero = new FileWriter(ControllerDefinicionFormal.archivo);
 
-						
 					}else {
-						
+
 						int r = new Random().nextInt(10000);
 						fichero = new FileWriter("saves/automata" + r + ".txt");
 						ControllerDefinicionFormal.archivo = "saves/automata" + r + ".txt";
-						
+
 					}
 					pw = new PrintWriter(fichero);
 					pw.println(estados);
@@ -139,25 +159,26 @@ public class ControllerDefinicionFormal {
 					pw.println(estadoInicial);
 					pw.println(simboloInicialPila);
 					pw.println(estadosAceptados);
-					
-					
+
+
 				} catch (Exception e) {
 					e.printStackTrace();
 				} finally {
 					try {
-						if (null != fichero)
+						if (null != fichero) {
 							fichero.close();
+						}
+						Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
+						Scene nuevaEscena = new Scene(pane);
+						Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
+						ventana.setScene(nuevaEscena);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}	
+			} else {
+				Mensaje.mostrarError("Datos incorrectos");
 			}
-			Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
-			Scene nuevaEscena = new Scene(pane);
-			Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
-			ventana.setScene(nuevaEscena);
-		} else {
-			Mensaje.mostrarError("Datos incorrectos");
 		}
 	}
 
@@ -171,37 +192,47 @@ public class ControllerDefinicionFormal {
 		}
 		return contiene;
 	}
-	
 
-	
 	public void ponerTextoAlCargar(String nombreArchivo) {
-		
+
 		//Coloca el texto en los TextField para poder editar
 		BufferedReader br = null;
 		FileReader fr = null;
 		try {
 			fr = new FileReader("saves/" + nombreArchivo);
 			br = new BufferedReader(fr);
-		
-			 txt_estados.setText(br.readLine());;
-			 txt_alfabeto_entrada.setText(br.readLine());;
-			 txt_alfabeto_pila.setText(br.readLine());
-			 txt_estado_inicial.setText(br.readLine());;
-			 txt_simbolo_inicial_pila.setText(br.readLine());;
-			 txt_estados_aceptados.setText(br.readLine());;
-			 
-				ControllerDefinicionFormal.archivo = "saves/" + nombreArchivo;
-				
-				archivoCargado = true;
 
-			
+			txt_estados.setText(br.readLine());;
+			txt_alfabeto_entrada.setText(br.readLine());;
+			txt_alfabeto_pila.setText(br.readLine());
+			txt_estado_inicial.setText(br.readLine());;
+			txt_simbolo_inicial_pila.setText(br.readLine());;
+			txt_estados_aceptados.setText(br.readLine());;
+
+			ControllerDefinicionFormal.archivo = "saves/" + nombreArchivo;
+
+			archivoCargado = true;
+
 		} catch (IOException e) {
 
 			e.printStackTrace();
-			
+
 		}
-		
-		
-		
+	}
+
+	private boolean palabraRepetida(String[] lista) {
+		boolean contiene_repeticion = true;
+		for(int i = 0; i < lista.length; i++) {
+			String palabra = lista[i].toString();
+			int contador = 0;
+			while(contador < lista.length) {
+				if(lista[contador].equals(palabra) && i != contador) {
+					contiene_repeticion = false;
+					break;
+				}
+				contador++;
+			}
+		}
+		return contiene_repeticion;
 	}
 }
