@@ -1,0 +1,6 @@
+Inicio,Leer_a,Acept,Mateo
+a,b,c,e
+A,B,C,Zo
+Inicio
+Zo
+Acept,Mateo

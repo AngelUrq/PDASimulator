@@ -16,12 +16,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import javafx.scene.layout.GridPane;
 
 public class ControllerAutomata {
@@ -29,6 +35,14 @@ public class ControllerAutomata {
 	@FXML private Button btnAnadir;
 	@FXML private Button btnGuardarReglas;
 
+	@FXML private Button btnLeerPalabra;
+	
+	
+	
+	@FXML private Menu menu;
+	@FXML private ScrollPane listaReglas;
+
+	
 	@FXML private TextField txtEstadoActual;
 	@FXML private TextField txtEntrada;
 	@FXML private TextField txtCimaPila;
@@ -36,8 +50,11 @@ public class ControllerAutomata {
 	@FXML private TextField txtAccion;
 	@FXML private TextField [] txt;
 
-	@FXML private ScrollPane listaReglas;
 
+	@FXML private TextField txtPalabraEntrada;
+	
+	
+	
 	private int tamReglas;
 
 	private GridPane grid;
@@ -55,11 +72,19 @@ public class ControllerAutomata {
 
 	private Automata automata ;
 
-	@FXML private ScrollPane panePila;
-	private ListView<String> objetosPila = new ListView<String>();
-	private ObservableList<String> list = FXCollections.observableArrayList();
 
 
+	private String nombreArchivo;
+	
+	
+	
+	//Lógica para la visualización de la pila
+	
+			@FXML private ScrollPane panePila;
+				  private ListView<String> objetosPila = new ListView<String>();
+				  private ObservableList<String> list = FXCollections.observableArrayList();
+
+	
 	@FXML
 	public void initialize() {
 		tamReglas = 0;
@@ -76,14 +101,14 @@ public class ControllerAutomata {
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
 
-			//automata = new Automata();
+			automata = new Automata();
 
-			//automata.setEstados(convertir(br.readLine().split(",")));
-			//automata.setAlfabetoEntrada(convertir((br.readLine()).split(",")));
-			//automata.setAlfabetoPila(convertir((br.readLine()).split(",")));
-			//automata.setEstadosIniciales(convertir((br.readLine()).split(",")));
-			//simboloInicial = (br.readLine());
-			//automata.setEstadosAceptacion(convertir((br.readLine()).split(",")));	
+			automata.setEstados(convertir(br.readLine().split(",")));
+			automata.setAlfabetoEntrada(convertir((br.readLine()).split(",")));
+			automata.setAlfabetoPila(convertir((br.readLine()).split(",")));
+			automata.setEstadosIniciales(convertir((br.readLine()).split(",")));
+			simboloInicial = (br.readLine());
+			automata.setEstadosAceptacion(convertir((br.readLine()).split(",")));	
 
 		} catch (IOException e) {
 
@@ -229,6 +254,36 @@ public class ControllerAutomata {
 		}	
 	}
 
+	
+	public void irADefFormal() {
+		//Abre la ventana de definición formal con los datos del archivo presionado
+    	String fileName = ControllerDefinicionFormal.archivo.substring(6);
+    	System.out.println(fileName);
+    	
+    	FXMLLoader loader = new FXMLLoader();
+    	
+		loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
+		
+		try {
+			
+		loader.load();	
+			
+		}catch(IOException ex){
+
+			System.out.println("¡Témpanos de hielo!");
+		}
+		
+		ControllerDefinicionFormal display = loader.getController();
+		
+		display.ponerTextoAlCargar(fileName);
+		
+		Parent p = loader.getRoot();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(p));
+		stage.showAndWait();
+	}
+	
+	
 	public void dibujarPila(String[] palabras) {
 		for(int i = 0; i < palabras.length; i++) {	
 			list.add(0,palabras[i]);
@@ -246,6 +301,58 @@ public class ControllerAutomata {
 	public ArrayList<String> convertir(String[] string) {
 		ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(string));		
 		return arrayList;
+	}
+	
+	
+	public boolean palabraPerteneceAlAlfabeto(String palabra) {
+	
+		ArrayList<String> alfabeto = automata.getAlfabetoEntrada();
+		boolean esValido;
+		boolean pertenece = true;
+		if(palabra.equals("")) {
+			pertenece = true;
+		}
+		String[] p = palabra.split("");
+		
+		for(int i = 0; i< p.length; i++) {//para cada letra de la palabra
+			 esValido = false;
+
+			for(int j = 0; j< alfabeto.size(); j++) {//para cada letra del alfabeto
+
+				if(p[i].equals(alfabeto.get(j))) {
+					esValido =  true;
+				}			
+			}
+			if(!esValido) {
+				pertenece = false;
+			}
+		}
+		return pertenece;
+	
+	}
+	
+	
+	
+	
+	//En éste método se realiza el proceso lógico del autómata
+	@FXML
+	public void leerPalabra() {
+		
+		 String palabra = txtPalabraEntrada.getText();
+		 if(palabraPerteneceAlAlfabeto(palabra)) {
+			 if(palabra.equals("")) {
+				 palabra = "#";
+			 }
+			 		 
+			 //Aqui toda la lógica del autómata
+			 
+			 
+			 
+				 
+		 }else {
+			 
+				new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
+		 }	
 	}
 
 }

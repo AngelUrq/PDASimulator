@@ -25,6 +25,9 @@ public class Automata {
 		this.pila = pila;
 	}
 
+	public Automata() {
+	}
+
 	public ArrayList<Regla> getReglas() {
 		return reglas;
 	}
