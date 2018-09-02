@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
+
 import com.pda.entity.Automata;
 import com.pda.entity.Regla;
 
@@ -59,7 +60,7 @@ public class ControllerAutomata {
 	private String simboloInicialPila;
 	private String[] listaEstadosAceptacion;
 
-	private Automata automata ;
+	private Automata automata;
 
 	private String nombreArchivo;
 
@@ -79,31 +80,16 @@ public class ControllerAutomata {
 		tamReglas = 0;
 		grid = new GridPane();
 		palabras = new ArrayList<String>();
+		reglas = new ArrayList<Regla>();
 		String simboloInicial = "";
+		leerTexto();
 
 		//Le coloca al autómata todos sus atributos, dejándolo listo para la recibir reglas 
 
 		BufferedReader br = null;
 
 		FileReader fr = null;
-		try {
-			fr = new FileReader(ControllerDefinicionFormal.archivo);
-			br = new BufferedReader(fr);
-
-			automata = new Automata();
-
-			automata.setEstados(convertir(br.readLine().split(",")));
-			automata.setAlfabetoEntrada(convertir((br.readLine()).split(",")));
-			automata.setAlfabetoPila(convertir((br.readLine()).split(",")));
-			automata.setEstadosIniciales(convertir((br.readLine()).split(",")));
-			simboloInicial = (br.readLine());
-			automata.setEstadosAceptacion(convertir((br.readLine()).split(",")));	
-
-		} catch (IOException e) {
-
-			e.printStackTrace();
-		}
-
+		
 		//A�ade la pila grafica y la acomoda en su sitio
 
 		list.add(0,simboloInicial);
@@ -111,6 +97,28 @@ public class ControllerAutomata {
 		panePila.setContent(objetosPila);
 		objetosPila.setTranslateX(75);
 		objetosPila.setTranslateY(525);		
+	}
+	
+	public void leerTexto() {
+		try {
+			fr = new FileReader(ControllerDefinicionFormal.archivo);
+			br = new BufferedReader(fr);
+
+			String sCurrentLine;
+
+			while ((sCurrentLine = br.readLine()) != null) {
+				listaEstados = sCurrentLine.split(",");
+				listaAlfabeto = (br.readLine()).split(",");
+				listaAlfabetoPila = (br.readLine()).split(",");
+				listaEstadosIniciales = (br.readLine()).split(",");
+				simboloInicialPila = br.readLine();
+				listaEstadosAceptacion = (br.readLine()).split(",");
+			}
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -245,7 +253,7 @@ public class ControllerAutomata {
 
 		ControllerDefinicionFormal display = loader.getController();
 
-		display.ponerTextoAlCargar(fileName);
+		//display.ponerTextoAlCargar(fileName);
 
 		Parent p = loader.getRoot();
 		Stage stage = new Stage();
