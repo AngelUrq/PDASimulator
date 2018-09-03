@@ -56,11 +56,9 @@
 	-fx-background-color: #357A86;
 }
 
-.list-view .list-cell:even {
--fx-background-color: white;
--fx-text-fill: gray;
-}
-.list-view .list-cell:odd {
+.list-view .list-cell {
 -fx-background-color: gray;
 -fx-text-fill: white;
+ -fx-alignment: center;
+
 }

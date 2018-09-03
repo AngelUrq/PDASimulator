@@ -53,29 +53,7 @@ public class Controller {
 						//Abre la ventana de definición formal con los datos del archivo presionado
 						String fileName = button.getText();
 
-						FXMLLoader loader = new FXMLLoader();
-
-						loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
-
-						try {
-
-							loader.load();	
-
-						}catch(IOException ex){
-
-							System.out.println("¡Témpanos de hielo!");
-						}
-
-						ControllerDefinicionFormal display = loader.getController();
-
-						display.ponerTextoAlCargar(fileName);
-
-						Parent p = loader.getRoot();
-						Stage stage = new Stage();
-						stage.setScene(new Scene(p));
-						stage.setResizable(false);
-						stage.getIcons().add(new Image("file::../../resources/icono.png"));
-						stage.showAndWait();
+						abrirComenzarCargar(fileName);
 					}
 				});
 				grid.add(button, 1, r);
@@ -95,10 +73,14 @@ public class Controller {
 
 	@FXML	
 	public void btnCargarPresionado(ActionEvent event) {
+		
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(new Stage());
 		if (file != null && formatoValido(file)) {
-			open(file);
+			String fileName = file.getName();
+			abrirComenzarCargar(fileName);
+			
+
 		}
 	}
 
@@ -120,5 +102,33 @@ public class Controller {
 		new Alert(Alert.AlertType.ERROR, "Fórmato del archivo inválido").showAndWait();
 		return false;
 	}
+	
+public void abrirComenzarCargar(String nombreArchivo) {
+		
+		String fileName = nombreArchivo;
+		
+		FXMLLoader loader = new FXMLLoader();
+    	
+		loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
+		
+		try {
+			
+		loader.load();	
+			
+		}catch(IOException ex){
+
+			System.out.println("¡Témpanos de hielo!");
+		}
+		
+		ControllerDefinicionFormal display = loader.getController();
+		
+		display.ponerTextoAlCargar(fileName);
+		
+		Parent p = loader.getRoot();
+		Stage stage = new Stage();
+		stage.setScene(new Scene(p));
+		stage.showAndWait();
+	}
+
 
 }

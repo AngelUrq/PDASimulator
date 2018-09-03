@@ -299,22 +299,13 @@ public class ControllerAutomata {
 
 	public void dibujarPila(String[] palabras)  {
 
-		Timer t = new Timer();
-
-		TimerTask tt = new TimerTask() {
-			@Override
-			public void run() {
-
 				for(int i = 0; i < palabras.length; i++) {	
 					list.add(0,palabras[i]);
 				}
 				objetosPila.setItems(list);
 				panePila.setContent(objetosPila);
 				objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
-				t.cancel();
-			};
-		};
-		t.schedule(tt,400,400);
+				
 
 	}
 
@@ -406,6 +397,35 @@ public class ControllerAutomata {
 			if(estadoAceptacion || pilaVacia) {
 				AutomataControl automataControl = new AutomataControl(automata,palabra,estadoAceptacion, pilaVacia);
 				automataControl.simular();
+				
+				//Proceso gráfico automático
+				ArrayList<Regla> rules = automataControl.getReglasGraf();
+				Timer t = new Timer();
+
+				TimerTask tt = new TimerTask() {
+
+					int i = 0;
+
+					@Override
+					public void run() {
+						
+							if( i == rules.size()) {
+								t.cancel();
+							}
+
+							if(rules.get(i).getAccion().equals("#")) {
+								borrarPila();
+							}else {
+								String[] r = rules.get(i).getAccion().split("");
+								dibujarPila(r);
+							}
+					
+							i++;
+					};
+					
+				};
+				t.schedule(tt,1000,1000);		
+				
 			} else {
 				Mensaje.mostrarError("No se marcÃ³ si el autÃ³mata acepta por pila vacÃ­a o estado de aceptaciÃ³n");
 			}
