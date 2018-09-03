@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
@@ -72,11 +73,9 @@ public class Controller {
 		        		Parent p = loader.getRoot();
 		        		Stage stage = new Stage();
 		        		stage.setScene(new Scene(p));
+		        		stage.setResizable(false);
+		        		stage.getIcons().add(new Image("file::../../resources/icono.png"));
 		        		stage.showAndWait();
-		            	
-		        		
-		            	
-		            	
 		            }
 		        });
 				grid.add(button, 1, r);

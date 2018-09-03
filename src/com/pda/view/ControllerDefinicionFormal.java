@@ -18,6 +18,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -190,6 +191,8 @@ public class ControllerDefinicionFormal {
 						Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmAutomata.fxml"));
 						Scene nuevaEscena = new Scene(pane);
 						Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
+						ventana.setResizable(false);
+						ventana.getIcons().add(new Image("file::../../resources/icono.png"));
 						ventana.setScene(nuevaEscena);
 					} catch (Exception e) {
 						e.printStackTrace();

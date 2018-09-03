@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.Stack;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.concurrent.TimeUnit;
 
 import com.pda.control.AutomataControl;
 import com.pda.entity.Automata;
@@ -81,8 +80,6 @@ public class ControllerAutomata {
 	
 	private boolean pilaVacia;
 	private boolean estadoAceptacion;
-
-	//Logica para la visualizacion de la pila
 
 	@FXML private ScrollPane panePila;
 	private ListView<String> objetosPila = new ListView<String>();
