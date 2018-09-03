@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="763.0" prefWidth="1110.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pda.view.ControllerAutomata">
+<AnchorPane fx:id="panelPrincipal" prefHeight="763.0" prefWidth="1110.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pda.view.ControllerAutomata">
    <children>
       <Pane id="panelRegla" fx:id="paneRegla" layoutX="62.0" layoutY="204.0" prefHeight="52.0" prefWidth="428.0" stylesheets="@application.css">
          <children>
@@ -63,10 +63,15 @@
         <menus>
           <Menu fx:id="menu" mnemonicParsing="false" text="Archivo">
             <items>
-              <MenuItem mnemonicParsing="false" onAction="#irADefFormal" text="Editar definición" />
+                  <MenuItem mnemonicParsing="false" onAction="#volverAlPrincipio" text="Nuevo" />
                   <MenuItem mnemonicParsing="false" text="Guardar autómata" />
             </items>
           </Menu>
+            <Menu mnemonicParsing="false" text="Definición">
+              <items>
+              <MenuItem mnemonicParsing="false" onAction="#irADefFormal" text="Editar" />
+              </items>
+            </Menu>
         </menus>
       </MenuBar>
       <Button id="btnAñadir" fx:id="btnAnadir" layoutX="503.0" layoutY="210.0" mnemonicParsing="false" onAction="#btnAnadirPresionado" prefHeight="40.0" prefWidth="56.0" text="+" />

@@ -71,6 +71,7 @@ public class Controller {
 		Parent pane = (AnchorPane)FXMLLoader.load(getClass().getResource("frmDefinicionFormal.fxml"));
 		Scene nuevaEscena = new Scene(pane);
 		Stage ventana = (Stage)(((Node) event.getSource()).getScene().getWindow());
+		ventana.getIcons().add(new Image("file::../../resources/icono.png"));
 		ventana.setScene(nuevaEscena);
 	}
 
@@ -130,6 +131,7 @@ public class Controller {
 		Parent p = loader.getRoot();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));
+		stage.getIcons().add(new Image("file::../../resources/icono.png"));
 		stage.showAndWait();	
 	}
 

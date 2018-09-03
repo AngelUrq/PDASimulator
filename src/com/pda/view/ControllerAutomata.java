@@ -34,7 +34,9 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 
 public class ControllerAutomata {
 
@@ -56,6 +58,8 @@ public class ControllerAutomata {
 	@FXML private CheckBox cbPilaVacia;
 	@FXML private CheckBox cbEstadoAceptado;
 
+	@FXML private Pane panelPrincipal;
+	
 	private int tamReglas;
 
 	private GridPane grid;
@@ -242,7 +246,18 @@ public class ControllerAutomata {
 		stage.setScene(new Scene(p));
 		stage.showAndWait();
 	}
-
+	
+	public void volverAlPrincipio() {
+		Parent pane = null;
+		try {
+			pane = (AnchorPane)FXMLLoader.load(getClass().getResource("app.fxml"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		Scene nuevaEscena = new Scene(pane);
+		Stage ventana = (Stage)panelPrincipal.getScene().getWindow();
+		ventana.setScene(nuevaEscena);
+	}
 
 	public boolean validarReglas(String estadoActual, String entrada, String cimaPila, String estadoNuevo) {
 		boolean entradasValidadas = false;

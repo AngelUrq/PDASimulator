@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.control.TextInputDialog;
+import javafx.stage.Stage;
 
 public class Mensaje {
 
@@ -13,6 +15,9 @@ public class Mensaje {
 		alert.setTitle("Informacion");
 		alert.setHeaderText(null);
 		alert.setContentText(mensaje);
+		
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("file::../../resources/icono.png"));
 
 		alert.showAndWait();
 	}
@@ -23,6 +28,9 @@ public class Mensaje {
 		alert.setHeaderText(null);
 		alert.setContentText(mensaje);
 
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("file::../../resources/icono.png"));
+		
 		alert.showAndWait();
 	}
 
@@ -32,6 +40,9 @@ public class Mensaje {
 		alert.setHeaderText(null);
 		alert.setContentText(mensaje);
 
+		Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+		stage.getIcons().add(new Image("file::../../resources/icono.png"));
+		
 		alert.showAndWait();
 	}
 	
