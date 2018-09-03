@@ -1,4 +1,4 @@
-package com.pda.view;
+﻿package com.pda.view;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,6 +22,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -100,7 +101,6 @@ public class ControllerAutomata {
 		leerTexto();
 		cargarReglas();
 		crearAutomata();
-
 	}
 
 	public void crearAutomata() {
@@ -137,7 +137,7 @@ public class ControllerAutomata {
 			simboloInicialPila = br.readLine(); 
 			listaEstadosAceptacion = (br.readLine()).split(","); 
 
-			//Añade la pila grafica y la acomoda en su sitio
+			//AÃ±ade la pila grafica y la acomoda en su sitio
 			list.add(0,simboloInicialPila);
 			objetosPila.setItems(list);
 			panePila.setContent(objetosPila);
@@ -167,7 +167,8 @@ public class ControllerAutomata {
 
 			if(validarReglas(estadoActual, entrada, cimaPila, estadoNuevo)) {
 				if(tamReglas > 0) {
-					for(int i = reglas.size() - 2; i >= 0; i--) {
+					System.out.println("Entre");
+					for(int i = reglas.size() - 1; i >= 0; i--) {
 						if(reglas.get(i).getEstadoActual().equals(estadoActual) && reglas.get(i).getEntrada().equals(entrada) && reglas.get(i).getCimaPila().equals(cimaPila) && reglas.get(i).getEstadoNuevo().equals(estadoNuevo)){
 							reglaRepetida = true;			
 						}
@@ -175,60 +176,14 @@ public class ControllerAutomata {
 				}
 
 				if(!reglaRepetida) {
-					Label inicio = new Label();
-					Label fin = new Label();
-					Label [] separadores = new Label[4];
-
-					Font tamano = new Font(30);
-
-					int columnaSeparador = 2;
-
-					for(int i = 0; i < separadores.length; i++) {
-						separadores[i] = new Label();
-						separadores[i].setText(",");
-						separadores[i].setFont(tamano);
-						separadores[i].setPrefWidth(16);
-
-						grid.add(separadores[i], columnaSeparador, tamReglas);
-						columnaSeparador += 2;
-					}
-
-					inicio.setText("<");
-					inicio.setFont(tamano);
-					fin.setText(">");
-					fin.setFont(tamano);
-
-					txt = new TextField[5];
-
-					for(int i = 0; i < txt.length; i++) {
-						txt[i] = new TextField();
-					}
-
-					txt[0].setText(estadoActual.toString());
-					txt[1].setText(entrada.toString());
-					txt[2].setText(cimaPila.toString());
-					txt[3].setText(estadoNuevo.toString());
-					txt[4].setText(accion.toString());
-
-					int columnaInicio = 0;
-					grid.add(inicio, columnaInicio, tamReglas);
-
-					int columnaFinal = 10;
-					grid.add(fin, columnaFinal, tamReglas);
-
-					for(int i = 0; i < txt.length; i++) {
-						txt[i].setPrefWidth(70);
-						grid.add(txt[i], 2 * i + 1, tamReglas);
-						palabras.add(txt[i].getText().toString());
-					}
-
-					listaReglas.setContent(grid);
-
+					
+					dibujarRegla(estadoActual, entrada, cimaPila, estadoNuevo, accion);
 					regla = new Regla(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText(), txt[4].getText());
 
 					reglas.add(regla);
+					tamReglas++;
 
-					System.out.println("Fila: " + tamReglas++);
+					System.out.println("Fila: " + tamReglas);
 
 					txtEstadoActual.setText("");
 					txtEntrada.setText("");
@@ -264,7 +219,7 @@ public class ControllerAutomata {
 	}
 
 	public void irADefFormal() {
-		//Abre la ventana de definición formal con los datos del archivo presionado
+		//Abre la ventana de definiciÃ³n formal con los datos del archivo presionado
 		String fileName = ControllerDefinicionFormal.archivo.substring(6);
 		System.out.println(fileName);
 
@@ -278,7 +233,7 @@ public class ControllerAutomata {
 
 		}catch(IOException ex){
 
-			System.out.println("¡Témpanos de hielo!");
+			System.out.println("Â¡TÃ©mpanos de hielo!");
 		}
 
 		ControllerDefinicionFormal display = loader.getController();
@@ -334,63 +289,15 @@ public class ControllerAutomata {
 		return entradasValidadas;	
 	}
 
+
 	public void cargarReglas() {
-
-		reglas = leerReglas();
-
+		
+		leerReglas();
 		//Dibuja las reglas en la interfaz
-		for (Regla regla : reglas) {
-
-			Label inicio = new Label();
-			Label fin = new Label();
-			Label [] separadores = new Label[4];
-
-			Font tamano = new Font(30);
-
-			int columnaSeparador = 2;
-
-			for(int i = 0; i < separadores.length; i++) {
-				separadores[i] = new Label();
-				separadores[i].setText(",");
-				separadores[i].setFont(tamano);
-				separadores[i].setPrefWidth(16);
-
-				grid.add(separadores[i], columnaSeparador, tamReglas);
-				columnaSeparador += 2;
-			}
-
-			inicio.setText("<");
-			inicio.setFont(tamano);
-			fin.setText(">");
-			fin.setFont(tamano);
-
-			txt = new TextField[5];
-
-			for(int i = 0; i < txt.length; i++) {
-				txt[i] = new TextField();
-			}
-
-			txt[0].setText(regla.getEstadoActual());
-			txt[1].setText(regla.getEntrada());
-			txt[2].setText(regla.getCimaPila());
-			txt[3].setText(regla.getEstadoNuevo());
-			txt[4].setText(regla.getAccion());
-
-			int columnaInicio = 0;
-			grid.add(inicio, columnaInicio, tamReglas);
-
-			int columnaFinal = 10;
-			grid.add(fin, columnaFinal, tamReglas);
-
-			for(int i = 0; i < txt.length; i++) {
-				txt[i].setPrefWidth(70);
-				grid.add(txt[i], 2 * i + 1, tamReglas);
-				palabras.add(txt[i].getText().toString());
-			}
-
-			listaReglas.setContent(grid);
+		for (int i = 0; i < reglas.size(); i++) {
+			dibujarRegla(reglas.get(i).getEstadoActual(), reglas.get(i).getEntrada(), reglas.get(i).getCimaPila(), reglas.get(i).getEstadoNuevo(), reglas.get(i).getAccion());
+			tamReglas++;	
 		}
-
 	}
 
 	public void dibujarPila(String[] palabras)  {
@@ -400,7 +307,6 @@ public class ControllerAutomata {
 		TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
-
 
 				for(int i = 0; i < palabras.length; i++) {	
 					list.add(0,palabras[i]);
@@ -425,8 +331,8 @@ public class ControllerAutomata {
 		return arrayList;
 	}
 
-	public ArrayList<Regla> leerReglas() {
-		ArrayList<Regla> reglas = new ArrayList<Regla>();
+	public void leerReglas() {
+		
 		BufferedReader br = null;
 		FileReader fr = null;
 		try {
@@ -434,31 +340,32 @@ public class ControllerAutomata {
 			br = new BufferedReader(fr);
 
 			String sCurrentLine = "";
-
-			//Lee las primeras líneas para llegar hasta donde están las reglas
-			for(int i  = 0;i < 6; i++) {	
-
-				sCurrentLine = br.readLine();
-			}
-
+			
 			//Lee las reglas y las guarda
 			while ((sCurrentLine = br.readLine()) != null) { 
+				leerTexto();
 				Regla regla = new Regla();
 				String[] r = sCurrentLine.split(",");
-				regla.setEstadoActual(r[0]);
-				regla.setEntrada(r[1]);
-				regla.setCimaPila(r[2]);
-				regla.setEstadoNuevo(r[3]);
-				regla.setAccion(r[4]);
+				
+				try {
+					if(contiene(listaEstados, r[0]) && contiene(listaAlfabeto, r[1]) && contiene(listaAlfabetoPila, r[2]) && contiene(listaEstados, r[3])) {
+						regla.setEstadoActual(r[0]);
+						regla.setEntrada(r[1]);
+						regla.setCimaPila(r[2]);
+						regla.setEstadoNuevo(r[3]);
+						regla.setAccion(r[4]);
 
-				reglas.add(regla);
+						reglas.add(regla);
+					}
+				}catch (Exception e) {
+				}
+				
 			}
+			
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
-
-		return reglas;
 
 	}
 
@@ -503,14 +410,74 @@ public class ControllerAutomata {
 				AutomataControl automataControl = new AutomataControl(automata,palabra,estadoAceptacion, pilaVacia);
 				automataControl.simular();
 			} else {
-				Mensaje.mostrarError("No se marcó si el autómata acepta por pila vacía o estado de aceptación");
+				Mensaje.mostrarError("No se marcÃ³ si el autÃ³mata acepta por pila vacÃ­a o estado de aceptaciÃ³n");
 			}
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
 		}	
 	}
+	
+	private boolean contiene(String[] lista, String elemento) {
+		boolean contiene = false;
 
+		for(int i = 0; i < lista.length; i++) {
+			if(lista[i].equals(elemento)) {
+				contiene = true;
+			}
+		}
+		return contiene;
+	}
 
+	private void dibujarRegla(String estadoActual, String entrada, String cimaPila, String estadoNuevo, String accion) {
+		
+		Label inicio = new Label();
+		Label fin = new Label();
+		Label [] separadores = new Label[4];
 
+		Font tamano = new Font(30);
+
+		int columnaSeparador = 2;
+
+		for(int i = 0; i < separadores.length; i++) {
+			separadores[i] = new Label();
+			separadores[i].setText(",");
+			separadores[i].setFont(tamano);
+			separadores[i].setPrefWidth(16);
+
+			grid.add(separadores[i], columnaSeparador, tamReglas);
+			columnaSeparador += 2;
+		}
+
+		inicio.setText("<");
+		inicio.setFont(tamano);
+		fin.setText(">");
+		fin.setFont(tamano);
+
+		txt = new TextField[5];
+
+		for(int i = 0; i < txt.length; i++) {
+			txt[i] = new TextField();
+		}
+
+		txt[0].setText(estadoActual);
+		txt[1].setText(entrada);
+		txt[2].setText(cimaPila);
+		txt[3].setText(estadoNuevo);
+		txt[4].setText(accion);
+
+		int columnaInicio = 0;
+		grid.add(inicio, columnaInicio, tamReglas);
+
+		int columnaFinal = 10;
+		grid.add(fin, columnaFinal, tamReglas);
+
+		for(int i = 0; i < txt.length; i++) {
+			txt[i].setPrefWidth(70);
+			grid.add(txt[i], 2 * i + 1, tamReglas);
+			palabras.add(txt[i].getText().toString());
+		}
+
+		listaReglas.setContent(grid);
+	}
 }
 
