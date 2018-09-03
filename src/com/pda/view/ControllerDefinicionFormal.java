@@ -26,6 +26,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class ControllerDefinicionFormal {
@@ -38,6 +39,8 @@ public class ControllerDefinicionFormal {
 	@FXML private TextField txt_estados_aceptados;
 	@FXML private Button btnComenzar;
 
+	@FXML private Pane panelPrincipal;
+	
 	private boolean archivoCargado;
 
 	public static String archivo;
@@ -49,7 +52,6 @@ public class ControllerDefinicionFormal {
 
 	@FXML	
 	public void btnComenzarPresionado(ActionEvent event) throws IOException {		
-
 		String estados = txt_estados.getText().toString().replaceAll("\\s", "");
 		String alfabetoEntrada = txt_alfabeto_entrada.getText().toString().replaceAll("\\s", "");
 		String alfabetoPila = txt_alfabeto_pila.getText().toString().replaceAll("\\s", "");

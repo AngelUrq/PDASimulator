@@ -59,7 +59,7 @@ public class AutomataControl {
 				estado = estadoOriginal;
 
 				Regla regla = definicion.getReglas().get(i);
-
+				
 				//Comprobamos si es la regla adecuada 
 				if(regla.getEstadoActual().equals(estado)) {
 					//Comprobamos el tope de la pila

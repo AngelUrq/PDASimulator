@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="panelPrincipal" prefHeight="700.0" prefWidth="1044.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pda.view.ControllerDefinicionFormal">
+<AnchorPane id="panelPrincipal" fx:id="panelPrincipal" prefHeight="700.0" prefWidth="1044.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pda.view.ControllerDefinicionFormal">
    <children>
       <Label layoutX="136.0" layoutY="80.0" text="Definición formal del autómata" textFill="#f2eeee">
          <font>

@@ -31,6 +31,9 @@ public class Controller {
 	private AnchorPane panelPrincipal;
 
 	@FXML
+	private Button btn_crear;
+	
+	@FXML
 	public void initialize() {
 		desktop = Desktop.getDesktop();
 		listar();
@@ -73,14 +76,11 @@ public class Controller {
 
 	@FXML	
 	public void btnCargarPresionado(ActionEvent event) {
-		
 		FileChooser fileChooser = new FileChooser();
 		File file = fileChooser.showOpenDialog(new Stage());
 		if (file != null && formatoValido(file)) {
 			String fileName = file.getName();
 			abrirComenzarCargar(fileName);
-			
-
 		}
 	}
 
@@ -102,32 +102,35 @@ public class Controller {
 		new Alert(Alert.AlertType.ERROR, "Fórmato del archivo inválido").showAndWait();
 		return false;
 	}
-	
-public void abrirComenzarCargar(String nombreArchivo) {
-		
+
+	public void abrirComenzarCargar(String nombreArchivo) {
+
 		String fileName = nombreArchivo;
-		
+
 		FXMLLoader loader = new FXMLLoader();
-    	
+
 		loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
-		
+
 		try {
-			
-		loader.load();	
-			
+
+			loader.load();	
+
 		}catch(IOException ex){
 
 			System.out.println("¡Témpanos de hielo!");
 		}
-		
+
 		ControllerDefinicionFormal display = loader.getController();
-		
+
 		display.ponerTextoAlCargar(fileName);
+
+		Stage ventana = (Stage) panelPrincipal.getScene().getWindow();
+		ventana.close();
 		
 		Parent p = loader.getRoot();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));
-		stage.showAndWait();
+		stage.showAndWait();	
 	}
 
 
