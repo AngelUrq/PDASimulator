@@ -1,6 +1,12 @@
-Inicio,Leer_a,Acept,Mateo
-a,b,c,e
-A,B,C,Zo
+Inicio,Leer_b,Acept
+a,b
+A,B,Zo
 Inicio
 Zo
-Acept,Mateo
+Acept
+Inicio,#,Zo,Acept,#
+Inicio,a,Zo,Inicio,A
+Inicio,a,A,Inicio,A
+Inicio,b,A,Leer_b,#
+Leer_b,b,A,Leer_b,#
+Leer_b,#,Zo,Acept,#

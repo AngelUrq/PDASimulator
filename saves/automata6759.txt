@@ -1,6 +1,0 @@
-Inicio,Odiar_al_inge,Seguirlo_odiando,Acept
-o,d,i,a,l,n,g,e
-O,D,I,A,L,N,G,E,Zo
-Inicio
-Zo
-Acept

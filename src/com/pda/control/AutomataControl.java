@@ -65,6 +65,7 @@ public class AutomataControl {
 					//Apilamos o desapilamos
 					if(regla.getAccion().equals("#")) {
 						pilaCopia.remove(pilaCopia.size() - 1);
+						
 					} else if(!regla.getAccion().equals("Z")){
 						for(int j = 0; j < regla.getAccion().length(); j++) {
 							pilaCopia.add(Character.toString(regla.getAccion().charAt(j)));	

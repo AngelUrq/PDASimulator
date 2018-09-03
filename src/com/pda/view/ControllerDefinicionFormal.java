@@ -5,11 +5,14 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
+
+import com.pda.entity.Regla;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -143,22 +146,45 @@ public class ControllerDefinicionFormal {
 				{
 					if(archivoCargado) {
 
+						ArrayList<Regla> reg = recuperarReglas();
+
 						fichero = new FileWriter(ControllerDefinicionFormal.archivo);
+		
+						pw = new PrintWriter(fichero);
+						pw.println(estados);
+						pw.println(alfabetoEntrada);
+						pw.println(alfabetoPila);
+						pw.println(estadoInicial);
+						pw.println(simboloInicialPila);
+						pw.println(estadosAceptados);
+						
+						if(reg != null) {
+							
+							for(Regla regla : reg) {
+								pw.println(regla.getEstadoActual() + "," + regla.getEntrada() + "," + regla.getCimaPila()
+											+ "," + regla.getEstadoNuevo() + "," + regla.getAccion());
+							}
+						}
+
+						
+						
+						
 
 					}else {
 
 						int r = new Random().nextInt(10000);
 						fichero = new FileWriter("saves/automata" + r + ".txt");
 						ControllerDefinicionFormal.archivo = "saves/automata" + r + ".txt";
+						pw = new PrintWriter(fichero);
+						pw.println(estados);
+						pw.println(alfabetoEntrada);
+						pw.println(alfabetoPila);
+						pw.println(estadoInicial);
+						pw.println(simboloInicialPila);
+						pw.println(estadosAceptados);
 
 					}
-					pw = new PrintWriter(fichero);
-					pw.println(estados);
-					pw.println(alfabetoEntrada);
-					pw.println(alfabetoPila);
-					pw.println(estadoInicial);
-					pw.println(simboloInicialPila);
-					pw.println(estadosAceptados);
+
 
 
 				} catch (Exception e) {
@@ -235,4 +261,52 @@ public class ControllerDefinicionFormal {
 		}
 		return contiene_repeticion;
 	}
+	
+	public ArrayList<Regla> recuperarReglas() {
+		
+		ArrayList<Regla> reglas = new ArrayList<Regla>();
+		BufferedReader br = null;
+		FileReader fr = null;
+		try {
+			fr = new FileReader(ControllerDefinicionFormal.archivo);
+			br = new BufferedReader(fr);
+			
+			String sCurrentLine;
+			
+			//Lee las primeras líneas para llegar hasta donde están las reglas
+			
+			
+			for(int i  = 0;i < 6; i++) {	
+				
+				sCurrentLine = br.readLine();
+			}
+			sCurrentLine = "";
+			
+			//Lee las reglas y las guarda
+			
+			while ((sCurrentLine = br.readLine()) != null) { 
+				Regla regla = new Regla();
+				String[] r = sCurrentLine.split(",");
+				regla.setEstadoActual(r[0]);
+				regla.setEntrada(r[1]);
+				regla.setCimaPila(r[2]);
+				regla.setEstadoNuevo(r[3]);
+				regla.setAccion(r[4]);
+		
+				reglas.add(regla);
+			}
+
+			
+			
+		
+		} catch (IOException e) {
+
+		e.printStackTrace();
+		}
+		return reglas;
+
+	
+	
+	}	
+	
 }
