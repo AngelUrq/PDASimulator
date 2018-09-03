@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import com.pda.control.AutomataControl;
@@ -385,21 +387,38 @@ public class ControllerAutomata {
 		
 	}
 
-	public void dibujarPila(String[] palabras) throws InterruptedException {
+	public void dibujarPila(String[] palabras)  {
 
-		for(int i = 0; i < palabras.length; i++) {	
-			list.add(0,palabras[i]);
-		}
-		objetosPila.setItems(list);
-		panePila.setContent(objetosPila);
-		objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
-		TimeUnit.SECONDS.sleep(1);
+
+		
+	
+		 Timer t = new Timer();
+		TimerTask tt = new TimerTask() {
+			@Override
+			public void run() {
+				
+				
+				for(int i = 0; i < palabras.length; i++) {	
+					list.add(0,palabras[i]);
+				}
+				objetosPila.setItems(list);
+				panePila.setContent(objetosPila);
+				objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
+				t.cancel();
+				
+				
+			};
+		};
+		t.schedule(tt,400,400);
+			
+		
 	}
+	
+	
 
-	public void borrarPila() throws InterruptedException {
+	public void borrarPila()  {
 		list.remove(0);
 		objetosPila.setTranslateY(objetosPila.getTranslateY() + 25);
-		TimeUnit.SECONDS.sleep(1);
 	}
 
 	public ArrayList<String> convertir(String[] string) {
@@ -474,19 +493,6 @@ public class ControllerAutomata {
 	@FXML
 	public void leerPalabra() {
 		
-		String [] a = {"a"};
-		String [] b = {"b"};
-		try {
-			dibujarPila(a);
-			dibujarPila(b);
-			dibujarPila(a);
-			dibujarPila(a);
-			
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		String palabra = txtPalabraEntrada.getText();
 		if(palabraPerteneceAlAlfabeto(palabra)) {
 			if(palabra.equals("")) {
@@ -494,6 +500,15 @@ public class ControllerAutomata {
 			}
 			AutomataControl automataControl = new AutomataControl(automata,palabra);
 			automataControl.simular();
+			ArrayList<String[]> rules = automataControl.getReglasGraf();
+			
+			for(String[] regla : rules) {
+				
+				dibujarPila(regla);
+			}
+			
+			
+			
 				
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();

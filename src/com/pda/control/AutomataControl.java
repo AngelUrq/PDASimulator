@@ -13,6 +13,7 @@ public class AutomataControl {
 	private String cadena;
 
 	private boolean aceptado;
+	private ArrayList<String[]> reglasGraf;
 
 	public AutomataControl(Automata definicion, String cadena) {
 		this.definicion = definicion;
@@ -27,7 +28,6 @@ public class AutomataControl {
 		}
 
 		System.out.println("Simulación finalizada");
-		System.exit(0);
 	}
 
 	private void probarRegla(String estado, int posicion, Stack<String> pila) {	
@@ -97,6 +97,24 @@ public class AutomataControl {
 		}
 
 		return pertenece;
+	}
+	
+	public void obtenerPasoPila(Stack<String> pila) {
+		reglasGraf = new ArrayList<String[]>();
+		Stack<String> pilaAux = pila;
+		String[] cadenaPila = new String[pila.size()];
+		
+		for(int i = 0 ; i< pila.size(); i++) {
+			cadenaPila[i] = pilaAux.pop();
+		}
+		
+		
+		reglasGraf.add(cadenaPila);
+	}
+	
+	public ArrayList<String[]> getReglasGraf() {
+		return reglasGraf;
+		
 	}
 
 }
