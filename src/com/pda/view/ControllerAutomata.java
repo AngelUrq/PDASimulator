@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
@@ -51,6 +52,9 @@ public class ControllerAutomata {
 	@FXML private TextField txtAccion;
 	@FXML private TextField [] txt;
 	@FXML private TextField txtPalabraEntrada;
+	
+	@FXML private CheckBox cbPilaVacia;
+	@FXML private CheckBox cbEstadoAceptacion;
 
 	private int tamReglas;
 
@@ -73,6 +77,9 @@ public class ControllerAutomata {
 
 	private BufferedReader br;
 	private FileReader fr;
+	
+	private boolean pilaVacia;
+	private boolean estadoAceptacion;
 
 	//Logica para la visualizacion de la pila
 
@@ -87,12 +94,12 @@ public class ControllerAutomata {
 		palabras = new ArrayList<String>();
 		reglas = new ArrayList<Regla>();
 
-
+		pilaVacia = false;
+		estadoAceptacion = false;
 
 		leerTexto();
 		cargarReglas();
 		crearAutomata();
-
 
 	}
 
@@ -123,16 +130,12 @@ public class ControllerAutomata {
 
 			String sCurrentLine;
 
-
-
 			listaEstados = (br.readLine()).split(","); 
 			listaAlfabeto = (br.readLine()).split(","); 
 			listaAlfabetoPila = (br.readLine()).split(","); 
 			listaEstadosIniciales = (br.readLine()).split(","); 
 			simboloInicialPila = br.readLine(); 
 			listaEstadosAceptacion = (br.readLine()).split(","); 
-
-
 
 			//Añade la pila grafica y la acomoda en su sitio
 			list.add(0,simboloInicialPila);
@@ -390,10 +393,8 @@ public class ControllerAutomata {
 
 	public void dibujarPila(String[] palabras)  {
 
-
-
-
 		Timer t = new Timer();
+
 		TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
@@ -406,16 +407,11 @@ public class ControllerAutomata {
 				panePila.setContent(objetosPila);
 				objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
 				t.cancel();
-
-
 			};
 		};
 		t.schedule(tt,400,400);
 
-
 	}
-
-
 
 	public void borrarPila()  {
 		list.remove(0);
@@ -507,6 +503,8 @@ public class ControllerAutomata {
 				dibujarPila(regla);
 			}*/
 
+			
+		
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
 		}	
