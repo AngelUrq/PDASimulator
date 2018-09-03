@@ -100,7 +100,7 @@ public class AutomataControl {
 			if(porEstadoFinal && contiene(definicion.getEstadosAceptacion(), estado)) {
 				//Aceptación por estado final
 				this.aceptado = true;
-				Mensaje.mostrarMensaje("Cadena aceptada por estado de aceptacion");
+				Mensaje.mostrarMensaje("Cadena aceptada por estado de aceptacion\n");
 				this.reglasGraf = camino;
 			} else if (pila.size() - 1 >= 0 & porPilaVacia && pila.get(pila.size() - 1).equals(definicion.getSimboloInicial())) {
 				//Aceptación por pila vacía

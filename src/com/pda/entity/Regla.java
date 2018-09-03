@@ -7,12 +7,12 @@ public class Regla {
 	private String cimaPila;
 	private String estadoNuevo;
 	private String accion;
-	
-	
+
+
 	public Regla() {
-		
+
 	}
-	
+
 	public Regla(String estActual, String entrada, String cima, String estNuevo, String accion) {
 		this.estadoActual = estActual;
 		this.entrada = entrada;
@@ -20,8 +20,8 @@ public class Regla {
 		this.estadoNuevo = estNuevo;
 		this.accion = accion;
 	}
-	
-	
+
+
 
 	public String getEstadoActual() {
 		return estadoActual;
@@ -68,6 +68,5 @@ public class Regla {
 		return estadoActual + "," + entrada + "," + cimaPila
 				+ "," + estadoNuevo + "," + accion;
 	}
-	
-	
+
 }

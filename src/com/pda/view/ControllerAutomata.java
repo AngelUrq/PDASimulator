@@ -52,7 +52,7 @@ public class ControllerAutomata {
 	@FXML private TextField txtAccion;
 	@FXML private TextField [] txt;
 	@FXML private TextField txtPalabraEntrada;
-	
+
 	@FXML private CheckBox cbPilaVacia;
 	@FXML private CheckBox cbEstadoAceptado;
 
@@ -77,7 +77,7 @@ public class ControllerAutomata {
 
 	private BufferedReader br;
 	private FileReader fr;
-	
+
 	private boolean pilaVacia;
 	private boolean estadoAceptacion;
 
@@ -111,7 +111,7 @@ public class ControllerAutomata {
 		automata.setEstadosAceptacion(convertir((listaEstadosAceptacion))); 
 		automata.setSimboloInicial(simboloInicialPila);
 		automata.setReglas(reglas);
-		
+
 		Stack<String> pila = new Stack<String>();
 		pila.push(simboloInicialPila);
 		automata.setPila(pila);
@@ -173,7 +173,7 @@ public class ControllerAutomata {
 				}
 
 				if(!reglaRepetida) {
-					
+
 					dibujarRegla(estadoActual, entrada, cimaPila, estadoNuevo, accion);
 					regla = new Regla(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText(), txt[4].getText());
 
@@ -277,7 +277,7 @@ public class ControllerAutomata {
 				validarAlfabetoPila = true;
 			}
 		}
-		
+
 		if(cimaPila.equals("Z")) {
 			validarAlfabetoPila = true;
 		}
@@ -288,7 +288,7 @@ public class ControllerAutomata {
 
 
 	public void cargarReglas() {
-		
+
 		leerReglas();
 		//Dibuja las reglas en la interfaz
 		for (int i = 0; i < reglas.size(); i++) {
@@ -299,14 +299,14 @@ public class ControllerAutomata {
 
 	public void dibujarPila(String[] palabras)  {
 
-				for(int i = 0; i < palabras.length; i++) {	
-					list.add(0,palabras[i]);
-				}
-				objetosPila.setItems(list);
-				panePila.setContent(objetosPila);
-				objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
-				
+		for(int i = 0; i < palabras.length; i++) {	
+			list.add(0,palabras[i]);
+		}
+		objetosPila.setItems(list);
+		panePila.setContent(objetosPila);
+		objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
 
+		
 	}
 
 	public void borrarPila()  {
@@ -320,7 +320,7 @@ public class ControllerAutomata {
 	}
 
 	public void leerReglas() {
-		
+
 		BufferedReader br = null;
 		FileReader fr = null;
 		try {
@@ -328,13 +328,13 @@ public class ControllerAutomata {
 			br = new BufferedReader(fr);
 
 			String sCurrentLine = "";
-			
+
 			//Lee las reglas y las guarda
 			while ((sCurrentLine = br.readLine()) != null) { 
 				leerTexto();
 				Regla regla = new Regla();
 				String[] r = sCurrentLine.split(",");
-				
+
 				try {
 					if(contiene(listaEstados, r[0]) && contiene(listaAlfabeto, r[1]) && contiene(listaAlfabetoPila, r[2]) && contiene(listaEstados, r[3])) {
 						regla.setEstadoActual(r[0]);
@@ -347,9 +347,9 @@ public class ControllerAutomata {
 					}
 				}catch (Exception e) {
 				}
-				
+
 			}
-			
+
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -390,7 +390,7 @@ public class ControllerAutomata {
 		if(palabra.equals("")) {
 			palabra = "#";
 		}
-		
+
 		if(palabraPerteneceAlAlfabeto(palabra)) {
 			estadoAceptacion = cbEstadoAceptado.isSelected();
 			pilaVacia = cbPilaVacia.isSelected();
@@ -400,6 +400,17 @@ public class ControllerAutomata {
 				
 				//Proceso gráfico automático
 				ArrayList<Regla> rules = automataControl.getReglasGraf();
+				
+				if(rules.size() > 0) {
+					String mensaje = "Pasos para la aceptación: \n";
+					for(int i = 0; i < automataControl.getReglasGraf().size(); i++) {
+						mensaje += (i + 1) + ". <";
+						mensaje += automataControl.getReglasGraf().get(i).toString();
+						mensaje += ">\n";
+					}
+					Mensaje.mostrarMensaje(mensaje);
+				}
+				
 				Timer t = new Timer();
 
 				TimerTask tt = new TimerTask() {
@@ -408,32 +419,33 @@ public class ControllerAutomata {
 
 					@Override
 					public void run() {
-						
-							if( i == rules.size()) {
-								t.cancel();
-							}
 
-							if(rules.get(i).getAccion().equals("#")) {
-								borrarPila();
-							}else {
-								String[] r = rules.get(i).getAccion().split("");
-								dibujarPila(r);
-							}
-					
-							i++;
+						if( i == rules.size()) {
+							t.cancel();
+						}
+
+						if(rules.get(i).getAccion().equals("#")) {
+							borrarPila();
+						}else {
+							String[] r = rules.get(i).getAccion().split("");
+							dibujarPila(r);
+						}
+
+						i++;
 					};
-					
+
 				};
 				t.schedule(tt,1000,1000);		
-				
 			} else {
 				Mensaje.mostrarError("No se marcÃ³ si el autÃ³mata acepta por pila vacÃ­a o estado de aceptaciÃ³n");
 			}
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
 		}	
+		
+		
 	}
-	
+
 	private boolean contiene(String[] lista, String elemento) {
 		boolean contiene = false;
 
@@ -446,7 +458,7 @@ public class ControllerAutomata {
 	}
 
 	private void dibujarRegla(String estadoActual, String entrada, String cimaPila, String estadoNuevo, String accion) {
-		
+
 		Label inicio = new Label();
 		Label fin = new Label();
 		Label [] separadores = new Label[4];
