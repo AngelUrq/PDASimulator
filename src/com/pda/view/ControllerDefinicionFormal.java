@@ -101,7 +101,7 @@ public class ControllerDefinicionFormal {
 			}
 
 			for(int i = 0; i < listaEstadosAceptados.length; i++) {
-				if(!contiene(listaEstados, listaEstadosAceptados[i])) {
+				if(!contiene(listaEstados, listaEstadosAceptados[i]) && !listaEstadosAceptados[i].equals("")) {
 					segunda_validacion = false;
 					Mensaje.mostrarError("Los estados aceptados no pertenecen al conjunto de estados.");
 				}

@@ -10,3 +10,4 @@ Leer,b,Z,Leer,B
 Leer,b,Z,Comp,B
 Comp,a,A,Comp,#
 Comp,b,B,Comp,#
+Leer,a,A,Leer,B

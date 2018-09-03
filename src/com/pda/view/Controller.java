@@ -26,7 +26,7 @@ public class Controller {
 
 	@FXML
 	private ScrollPane listaScroll;
-	
+
 	@FXML
 	private AnchorPane panelPrincipal;
 
@@ -47,37 +47,37 @@ public class Controller {
 				Button button = new Button(listOfFiles[r].getName());
 				button.setPrefWidth(listaScroll.getPrefWidth());
 				button.setStyle("-fx-background-color: #357A86; -fx-text-fill: white; -fx-padding: 15px");
-			    button.setOnAction(new EventHandler<ActionEvent>() {
-		            @Override
-		            public void handle(ActionEvent event) {
-		            		//Abre la ventana de definición formal con los datos del archivo presionado
-		            	String fileName = button.getText();
-		            	
-		            	FXMLLoader loader = new FXMLLoader();
-		            	
-		        		loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
-		        		
-		        		try {
-		        			
-		        		loader.load();	
-		        			
-		        		}catch(IOException ex){
+				button.setOnAction(new EventHandler<ActionEvent>() {
+					@Override
+					public void handle(ActionEvent event) {
+						//Abre la ventana de definición formal con los datos del archivo presionado
+						String fileName = button.getText();
 
-		        			System.out.println("¡Témpanos de hielo!");
-		        		}
-		        		
-		        		ControllerDefinicionFormal display = loader.getController();
-		        		
-		        		display.ponerTextoAlCargar(fileName);
-		        		
-		        		Parent p = loader.getRoot();
-		        		Stage stage = new Stage();
-		        		stage.setScene(new Scene(p));
-		        		stage.setResizable(false);
-		        		stage.getIcons().add(new Image("file::../../resources/icono.png"));
-		        		stage.showAndWait();
-		            }
-		        });
+						FXMLLoader loader = new FXMLLoader();
+
+						loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
+
+						try {
+
+							loader.load();	
+
+						}catch(IOException ex){
+
+							System.out.println("¡Témpanos de hielo!");
+						}
+
+						ControllerDefinicionFormal display = loader.getController();
+
+						display.ponerTextoAlCargar(fileName);
+
+						Parent p = loader.getRoot();
+						Stage stage = new Stage();
+						stage.setScene(new Scene(p));
+						stage.setResizable(false);
+						stage.getIcons().add(new Image("file::../../resources/icono.png"));
+						stage.showAndWait();
+					}
+				});
 				grid.add(button, 1, r);
 			}
 		}
@@ -101,7 +101,7 @@ public class Controller {
 			open(file);
 		}
 	}
-	
+
 	public void open(File file) {
 		try {
 			desktop.open(file);
@@ -109,9 +109,9 @@ public class Controller {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public boolean formatoValido(File file) {
-		
+
 		String nombre = file.getName().substring(0, 8);
 		System.out.println(nombre);
 		if(nombre.equals("automata")) {
