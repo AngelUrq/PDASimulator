@@ -37,7 +37,7 @@ public class AutomataControl {
 				//Aceptación por estado final
 				this.aceptado = true;
 				System.out.println("Cadena aceptada por estado de aceptación");
-			} else if (definicion.getEstadosAceptacion().size() == 0 && pila.get(pila.size() - 1).equals("z0")) {
+			} else if (definicion.getEstadosAceptacion().size() == 0 && pila.get(pila.size() - 1).equals(definicion.getSimboloInicial())) {
 				//Aceptación por pila vacía
 				this.aceptado = true;
 				System.out.println("Cadena aceptada por pila vacía");
@@ -60,12 +60,12 @@ public class AutomataControl {
 
 			//Comprobamos si es la regla adecuada 
 			if(regla.getEstadoActual().equals(estado)) {
+				//Comprobamos el tope de la pila
 				if(regla.getCimaPila().equals(pilaCopia.get(pilaCopia.size() - 1)) || regla.getCimaPila().equals("Z")) {	
 					estado = regla.getEstadoNuevo();
 					//Apilamos o desapilamos
 					if(regla.getAccion().equals("#")) {
 						pilaCopia.remove(pilaCopia.size() - 1);
-						
 					} else if(!regla.getAccion().equals("Z")){
 						for(int j = 0; j < regla.getAccion().length(); j++) {
 							pilaCopia.add(Character.toString(regla.getAccion().charAt(j)));	
@@ -73,10 +73,8 @@ public class AutomataControl {
 					}
 					//Si la entrada está bien probamos una nueva regla
 					if(regla.getEntrada().equals(caracter)) {
-						//Probamos el siguiente caracter
 						probarRegla(estado, posicion + 1, (Stack<String>)pilaCopia.clone());
 					} else if(regla.getEntrada().equals("#")) {
-						//Comprobamos el tope de la pila
 						probarRegla(estado, posicion, (Stack<String>)pilaCopia.clone());
 					}
 				}

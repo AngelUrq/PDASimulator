@@ -86,18 +86,18 @@ public class ControllerAutomata {
 		grid = new GridPane();
 		palabras = new ArrayList<String>();
 		reglas = new ArrayList<Regla>();
-		
-		
-		
+
+
+
 		leerTexto();
 		cargarReglas();
 		crearAutomata();
 
 
 	}
-	
+
 	public void crearAutomata() {
-		
+
 		automata = new Automata(); 
 
 		automata.setEstados(convertir(listaEstados)); 
@@ -105,13 +105,14 @@ public class ControllerAutomata {
 		automata.setAlfabetoPila(convertir(listaAlfabetoPila)); 
 		automata.setEstadosIniciales(convertir(listaEstadosIniciales)); 
 		automata.setEstadosAceptacion(convertir((listaEstadosAceptacion))); 
+		automata.setSimboloInicial(simboloInicialPila);
 		automata.setReglas(leerReglas());
 		
 		Stack<String> pila = new Stack<String>();
-		pila.push("Zo");
+		pila.push(simboloInicialPila);
 		automata.setPila(pila);
 	}
-	
+
 	public void leerTexto() {
 
 		BufferedReader br = null;
@@ -119,27 +120,27 @@ public class ControllerAutomata {
 		try {
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
-			
+
 			String sCurrentLine;
-			
-			
 
-				listaEstados = (br.readLine()).split(","); 
-				listaAlfabeto = (br.readLine()).split(","); 
-				listaAlfabetoPila = (br.readLine()).split(","); 
-				listaEstadosIniciales = (br.readLine()).split(","); 
-				simboloInicialPila = br.readLine(); 
-				listaEstadosAceptacion = (br.readLine()).split(","); 
-				
 
-			
+
+			listaEstados = (br.readLine()).split(","); 
+			listaAlfabeto = (br.readLine()).split(","); 
+			listaAlfabetoPila = (br.readLine()).split(","); 
+			listaEstadosIniciales = (br.readLine()).split(","); 
+			simboloInicialPila = br.readLine(); 
+			listaEstadosAceptacion = (br.readLine()).split(","); 
+
+
+
 			//Añade la pila grafica y la acomoda en su sitio
 			list.add(0,simboloInicialPila);
 			objetosPila.setItems(list);
 			panePila.setContent(objetosPila);
 			objetosPila.setTranslateX(75);
 			objetosPila.setTranslateY(525);		
-			
+
 
 		} catch (IOException e) {
 
@@ -307,7 +308,7 @@ public class ControllerAutomata {
 		validarEstados = validarEstadoInicial && validarEstadoFinal;
 
 		for(int i = 0; i <  listaAlfabeto.length; i++) {
-			
+
 			if(entrada.equals("#")) {
 				validarEntradas = true;
 			}
@@ -325,79 +326,79 @@ public class ControllerAutomata {
 		entradasValidadas = validarEstados && validarEntradas && validarAlfabetoPila;
 		return entradasValidadas;	
 	}
-	
-	
-	
+
+
+
 	public void cargarReglas() {
-		
+
 		ArrayList<Regla> reglas = leerReglas();
-					
-			//Dibuja las reglas en la interfaz
-			for (Regla regla : reglas) {
-				
-				Label inicio = new Label();
-				Label fin = new Label();
-				Label [] separadores = new Label[4];
 
-				Font tamano = new Font(30);
+		//Dibuja las reglas en la interfaz
+		for (Regla regla : reglas) {
 
-				int columnaSeparador = 2;
+			Label inicio = new Label();
+			Label fin = new Label();
+			Label [] separadores = new Label[4];
 
-				for(int i = 0; i < separadores.length; i++) {
-					separadores[i] = new Label();
-					separadores[i].setText(",");
-					separadores[i].setFont(tamano);
-					separadores[i].setPrefWidth(16);
+			Font tamano = new Font(30);
 
-					grid.add(separadores[i], columnaSeparador, tamReglas);
-					columnaSeparador += 2;
-				}
+			int columnaSeparador = 2;
 
-				inicio.setText("<");
-				inicio.setFont(tamano);
-				fin.setText(">");
-				fin.setFont(tamano);
+			for(int i = 0; i < separadores.length; i++) {
+				separadores[i] = new Label();
+				separadores[i].setText(",");
+				separadores[i].setFont(tamano);
+				separadores[i].setPrefWidth(16);
 
-				txt = new TextField[5];
-
-				for(int i = 0; i < txt.length; i++) {
-					txt[i] = new TextField();
-				}
-
-				txt[0].setText(regla.getEstadoActual());
-				txt[1].setText(regla.getEntrada());
-				txt[2].setText(regla.getCimaPila());
-				txt[3].setText(regla.getEstadoNuevo());
-				txt[4].setText(regla.getAccion());
-
-				int columnaInicio = 0;
-				grid.add(inicio, columnaInicio, tamReglas);
-
-				int columnaFinal = 10;
-				grid.add(fin, columnaFinal, tamReglas);
-
-				for(int i = 0; i < txt.length; i++) {
-					txt[i].setPrefWidth(70);
-					grid.add(txt[i], 2 * i + 1, tamReglas);
-					palabras.add(txt[i].getText().toString());
-				}
-			
-				listaReglas.setContent(grid);
+				grid.add(separadores[i], columnaSeparador, tamReglas);
+				columnaSeparador += 2;
 			}
-		
+
+			inicio.setText("<");
+			inicio.setFont(tamano);
+			fin.setText(">");
+			fin.setFont(tamano);
+
+			txt = new TextField[5];
+
+			for(int i = 0; i < txt.length; i++) {
+				txt[i] = new TextField();
+			}
+
+			txt[0].setText(regla.getEstadoActual());
+			txt[1].setText(regla.getEntrada());
+			txt[2].setText(regla.getCimaPila());
+			txt[3].setText(regla.getEstadoNuevo());
+			txt[4].setText(regla.getAccion());
+
+			int columnaInicio = 0;
+			grid.add(inicio, columnaInicio, tamReglas);
+
+			int columnaFinal = 10;
+			grid.add(fin, columnaFinal, tamReglas);
+
+			for(int i = 0; i < txt.length; i++) {
+				txt[i].setPrefWidth(70);
+				grid.add(txt[i], 2 * i + 1, tamReglas);
+				palabras.add(txt[i].getText().toString());
+			}
+
+			listaReglas.setContent(grid);
+		}
+
 	}
 
 	public void dibujarPila(String[] palabras)  {
 
 
-		
-	
-		 Timer t = new Timer();
+
+
+		Timer t = new Timer();
 		TimerTask tt = new TimerTask() {
 			@Override
 			public void run() {
-				
-				
+
+
 				for(int i = 0; i < palabras.length; i++) {	
 					list.add(0,palabras[i]);
 				}
@@ -405,16 +406,16 @@ public class ControllerAutomata {
 				panePila.setContent(objetosPila);
 				objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
 				t.cancel();
-				
-				
+
+
 			};
 		};
 		t.schedule(tt,400,400);
-			
-		
+
+
 	}
-	
-	
+
+
 
 	public void borrarPila()  {
 		list.remove(0);
@@ -425,7 +426,7 @@ public class ControllerAutomata {
 		ArrayList<String> arrayList = new ArrayList<String>(Arrays.asList(string));		
 		return arrayList;
 	}
-	
+
 	public ArrayList<Regla> leerReglas() {
 		ArrayList<Regla> reglas = new ArrayList<Regla>();
 		BufferedReader br = null;
@@ -433,12 +434,12 @@ public class ControllerAutomata {
 		try {
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
-			
+
 			String sCurrentLine = "";
-			
+
 			//Lee las primeras líneas para llegar hasta donde están las reglas
 			for(int i  = 0;i < 6; i++) {	
-				
+
 				sCurrentLine = br.readLine();
 			}
 
@@ -451,16 +452,16 @@ public class ControllerAutomata {
 				regla.setCimaPila(r[2]);
 				regla.setEstadoNuevo(r[3]);
 				regla.setAccion(r[4]);
-		
-				reglas.add(regla);
-				}
-			} catch (IOException e) {
 
-				e.printStackTrace();
+				reglas.add(regla);
 			}
-		
+		} catch (IOException e) {
+
+			e.printStackTrace();
+		}
+
 		return reglas;
-					
+
 	}
 
 	public boolean palabraPerteneceAlAlfabeto(String palabra) {
@@ -492,7 +493,6 @@ public class ControllerAutomata {
 	//En este metodo se realiza el proceso logico del automata
 	@FXML
 	public void leerPalabra() {
-		
 		String palabra = txtPalabraEntrada.getText();
 		if(palabraPerteneceAlAlfabeto(palabra)) {
 			if(palabra.equals("")) {
@@ -500,21 +500,18 @@ public class ControllerAutomata {
 			}
 			AutomataControl automataControl = new AutomataControl(automata,palabra);
 			automataControl.simular();
-			ArrayList<String[]> rules = automataControl.getReglasGraf();
-			
+			/*ArrayList<String[]> rules = automataControl.getReglasGraf();
+
 			for(String[] regla : rules) {
-				
+
 				dibujarPila(regla);
-			}
-			
-			
-			
-				
+			}*/
+
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
 		}	
 	}
-	
+
 
 
 }

@@ -149,7 +149,7 @@ public class ControllerDefinicionFormal {
 						ArrayList<Regla> reg = recuperarReglas();
 
 						fichero = new FileWriter(ControllerDefinicionFormal.archivo);
-		
+
 						pw = new PrintWriter(fichero);
 						pw.println(estados);
 						pw.println(alfabetoEntrada);
@@ -157,19 +157,14 @@ public class ControllerDefinicionFormal {
 						pw.println(estadoInicial);
 						pw.println(simboloInicialPila);
 						pw.println(estadosAceptados);
-						
+
 						if(reg != null) {
-							
+
 							for(Regla regla : reg) {
 								pw.println(regla.getEstadoActual() + "," + regla.getEntrada() + "," + regla.getCimaPila()
-											+ "," + regla.getEstadoNuevo() + "," + regla.getAccion());
+								+ "," + regla.getEstadoNuevo() + "," + regla.getAccion());
 							}
 						}
-
-						
-						
-						
-
 					}else {
 
 						int r = new Random().nextInt(10000);
@@ -184,8 +179,6 @@ public class ControllerDefinicionFormal {
 						pw.println(estadosAceptados);
 
 					}
-
-
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -202,9 +195,9 @@ public class ControllerDefinicionFormal {
 						e.printStackTrace();
 					}
 				}	
-			} else {
-				Mensaje.mostrarError("Datos incorrectos");
-			}
+			} 
+		}else {
+			Mensaje.mostrarError("Datos incorrectos");
 		}
 	}
 
@@ -261,29 +254,29 @@ public class ControllerDefinicionFormal {
 		}
 		return contiene_repeticion;
 	}
-	
+
 	public ArrayList<Regla> recuperarReglas() {
-		
+
 		ArrayList<Regla> reglas = new ArrayList<Regla>();
 		BufferedReader br = null;
 		FileReader fr = null;
 		try {
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
-			
+
 			String sCurrentLine;
-			
+
 			//Lee las primeras líneas para llegar hasta donde están las reglas
-			
-			
+
+
 			for(int i  = 0;i < 6; i++) {	
-				
+
 				sCurrentLine = br.readLine();
 			}
 			sCurrentLine = "";
-			
+
 			//Lee las reglas y las guarda
-			
+
 			while ((sCurrentLine = br.readLine()) != null) { 
 				Regla regla = new Regla();
 				String[] r = sCurrentLine.split(",");
@@ -292,21 +285,21 @@ public class ControllerDefinicionFormal {
 				regla.setCimaPila(r[2]);
 				regla.setEstadoNuevo(r[3]);
 				regla.setAccion(r[4]);
-		
+
 				reglas.add(regla);
 			}
 
-			
-			
-		
+
+
+
 		} catch (IOException e) {
 
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 		return reglas;
 
-	
-	
+
+
 	}	
-	
+
 }
