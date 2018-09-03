@@ -1,6 +1,0 @@
-Inicio,Leer_a,Acept,Nuevo,Nuevo_1
-a,b,c,d
-A,B,C,Zo
-Inicio,Leer_a
-Zo
-Acept,Nuevo

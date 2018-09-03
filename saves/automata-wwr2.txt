@@ -1,0 +1,11 @@
+Leer,Comp,Fin
+a,b,#
+z0,A,B
+Leer
+z0
+Fin
+Leer,a,Z,Leer,A
+Leer,b,Z,Leer,B
+Leer,#,Z,Comp,Z
+Comp,a,A,Comp,#
+Comp,b,B,Comp,#

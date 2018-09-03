@@ -54,7 +54,7 @@ public class ControllerAutomata {
 	@FXML private TextField txtPalabraEntrada;
 	
 	@FXML private CheckBox cbPilaVacia;
-	@FXML private CheckBox cbEstadoAceptacion;
+	@FXML private CheckBox cbEstadoAceptado;
 
 	private int tamReglas;
 
@@ -113,7 +113,7 @@ public class ControllerAutomata {
 		automata.setEstadosIniciales(convertir(listaEstadosIniciales)); 
 		automata.setEstadosAceptacion(convertir((listaEstadosAceptacion))); 
 		automata.setSimboloInicial(simboloInicialPila);
-		automata.setReglas(leerReglas());
+		automata.setReglas(reglas);
 		
 		Stack<String> pila = new Stack<String>();
 		pila.push(simboloInicialPila);
@@ -325,16 +325,18 @@ public class ControllerAutomata {
 				validarAlfabetoPila = true;
 			}
 		}
+		
+		if(cimaPila.equals("Z")) {
+			validarAlfabetoPila = true;
+		}
 
 		entradasValidadas = validarEstados && validarEntradas && validarAlfabetoPila;
 		return entradasValidadas;	
 	}
 
-
-
 	public void cargarReglas() {
 
-		ArrayList<Regla> reglas = leerReglas();
+		reglas = leerReglas();
 
 		//Dibuja las reglas en la interfaz
 		for (Regla regla : reglas) {
@@ -490,21 +492,19 @@ public class ControllerAutomata {
 	@FXML
 	public void leerPalabra() {
 		String palabra = txtPalabraEntrada.getText();
-		if(palabraPerteneceAlAlfabeto(palabra)) {
-			if(palabra.equals("")) {
-				palabra = "#";
-			}
-			AutomataControl automataControl = new AutomataControl(automata,palabra);
-			automataControl.simular();
-			/*ArrayList<String[]> rules = automataControl.getReglasGraf();
-
-			for(String[] regla : rules) {
-
-				dibujarPila(regla);
-			}*/
-
-			
+		if(palabra.equals("")) {
+			palabra = "#";
+		}
 		
+		if(palabraPerteneceAlAlfabeto(palabra)) {
+			estadoAceptacion = cbEstadoAceptado.isSelected();
+			pilaVacia = cbPilaVacia.isSelected();
+			if(estadoAceptacion || pilaVacia) {
+				AutomataControl automataControl = new AutomataControl(automata,palabra,estadoAceptacion, pilaVacia);
+				automataControl.simular();
+			} else {
+				Mensaje.mostrarError("No se marcó si el autómata acepta por pila vacía o estado de aceptación");
+			}
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
 		}	

@@ -1,7 +1,0 @@
-q0,q1,q2
-a,b,c
-A,B,C
-q0
-A
-q1
-q0,a,A,q0,A

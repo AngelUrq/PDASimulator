@@ -1,7 +1,10 @@
 package com.pda.view;
 
+import java.util.Optional;
+
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TextInputDialog;
 
 public class Mensaje {
 
@@ -30,6 +33,20 @@ public class Mensaje {
 		alert.setContentText(mensaje);
 
 		alert.showAndWait();
+	}
+	
+	public static String mostrarInput(String mensaje1, String mensaje2) {
+		TextInputDialog dialog = new TextInputDialog();
+		dialog.setTitle("Ingresar datos");
+		dialog.setHeaderText(mensaje1);
+		dialog.setContentText(mensaje2);
+
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()){
+		    return result.get();
+		}
+		
+		return "";
 	}
 	
 }

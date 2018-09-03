@@ -62,11 +62,11 @@ public class ControllerDefinicionFormal {
 			validacion = false;
 		}
 
-		if(!alfabetoEntrada.matches("(\\w)+(,(\\w)+)*")) {
+		if(!alfabetoEntrada.matches("((\\w)|#)+(,((\\w)|#)+)*")) {
 			validacion = false;
 		}
 
-		if(!alfabetoPila.matches("(\\w)+(,(\\w)+)*")) {
+		if(!alfabetoPila.matches("((\\w))+(,((\\w))+)*")) {
 			validacion = false;
 		}
 
@@ -78,7 +78,7 @@ public class ControllerDefinicionFormal {
 			validacion = false;
 		}
 
-		if(!estadosAceptados.matches("(\\w)+(,(\\w)+)*")) {
+		if(!estadosAceptados.matches("((\\w)+(,(\\w)+)*)?")) {
 			validacion = false;
 		}
 
@@ -166,13 +166,13 @@ public class ControllerDefinicionFormal {
 							}
 						}
 					}else {
-
-						int r = new Random().nextInt(10000);
-						fichero = new FileWriter("saves/automata" + r + ".txt");
-						ControllerDefinicionFormal.archivo = "saves/automata" + r + ".txt";
+						String nombre = Mensaje.mostrarInput("Creando un nuevo autómata","Ingresa el nombre del archivo: ");
+						
+						fichero = new FileWriter("saves/automata-" + nombre + ".txt");
+						ControllerDefinicionFormal.archivo = "saves/automata-" + nombre + ".txt";
 						pw = new PrintWriter(fichero);
 						pw.println(estados);
-						pw.println(alfabetoEntrada);
+						pw.println(alfabetoEntrada + ",#");
 						pw.println(alfabetoPila);
 						pw.println(estadoInicial);
 						pw.println(simboloInicialPila);

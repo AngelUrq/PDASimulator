@@ -1,12 +1,5 @@
 package com.pda.view;
 
-import java.util.ArrayList;
-import java.util.Stack;
-
-import com.pda.control.AutomataControl;
-import com.pda.entity.Automata;
-import com.pda.entity.Regla;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
