@@ -98,6 +98,8 @@ public class ControllerAutomata {
 
 		pilaVacia = false;
 		estadoAceptacion = false;
+		objetosPila.setFixedCellSize(25);
+
 
 		leerTexto();
 		cargarReglas();
@@ -319,14 +321,14 @@ public class ControllerAutomata {
 		}
 		objetosPila.setItems(list);
 		panePila.setContent(objetosPila);
-		objetosPila.setTranslateY(objetosPila.getTranslateY() - 25 * palabras.length);
+		objetosPila.setTranslateY(objetosPila.getTranslateY() -objetosPila.getFixedCellSize()* palabras.length);
 
 		
 	}
 
 	public void borrarPila()  {
 		list.remove(0);
-		objetosPila.setTranslateY(objetosPila.getTranslateY() + 25);
+		objetosPila.setTranslateY(objetosPila.getTranslateY() +objetosPila.getFixedCellSize());
 	}
 
 	public ArrayList<String> convertir(String[] string) {
@@ -435,7 +437,7 @@ public class ControllerAutomata {
 					@Override
 					public void run() {
 
-						if( i == rules.size()) {
+						if( i >= rules.size()) {
 							t.cancel();
 						}
 
@@ -452,7 +454,7 @@ public class ControllerAutomata {
 				};
 				t.schedule(tt,1000,1000);		
 			} else {
-				Mensaje.mostrarError("No se marcÃ³ si el autÃ³mata acepta por pila vacÃ­a o estado de aceptaciÃ³n");
+				Mensaje.mostrarError("No se marco si el automata acepta por pila vaci­a o estado de aceptacion");
 			}
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
