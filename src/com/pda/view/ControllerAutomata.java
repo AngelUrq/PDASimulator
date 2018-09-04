@@ -59,7 +59,7 @@ public class ControllerAutomata {
 	@FXML private CheckBox cbEstadoAceptado;
 
 	@FXML private Pane panelPrincipal;
-	
+
 	private int tamReglas;
 
 	private GridPane grid;
@@ -212,14 +212,98 @@ public class ControllerAutomata {
 			Mensaje.mostrarError("Debes ingresar datos");
 		}
 	}
-
+//Comienza aqui----------------------------------------------
 	public void btnGuardarReglas(ActionEvent event) throws IOException {
 		System.out.println("Guardando...");
+		
+		//Primero revisa que el vector tenga tamaño 0, si este tiene tamaño mayor a cero, limpia todo el arrayList
+		if(reglas.size() > 0) {
+			reglas.clear();
+		}
+		
+		//Permite obtener los valores de cada posicion del gridPane segun fila y columna y los almacena en textField
+		int contador = 0 ;
+		for(int i = 0; i < getRowCount(grid); i++) {
+			for(int j = 0; j < txt.length ;j++) {
+				txt[contador] = (TextField) getNodeByRowColumnIndex(i, 2 * j + 1 , grid);
+				System.out.println(getNodeByRowColumnIndex(i, 2 * j + 1 , grid).toString());
+				contador++;
+			}
+			contador = 0;
+			
+			//Aun falta validar el apilar, desapilar o mantener sin hacer nada
+			txt[4].getText();
+			
+			//Valida que la regla contenga simbolos de la definicion formal
+			if(validarReglas(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText())) {
+				try {
+					//Inicia el lector de texto
+					BufferedReader br = null;
+					FileReader f = null;
+					//Inicia el FileWriter para poder escribir en el texto
+					FileWriter fr = null;
+					PrintWriter pw = null;
+					//--------------------Obtiene el archivo a leer o escribir
+					f = new FileReader(ControllerDefinicionFormal.archivo);
+					br = new BufferedReader(f);
+					fr = new FileWriter(ControllerDefinicionFormal.archivo);
+					pw = new PrintWriter(fr);
 
-		for(int i = 0; i < palabras.size(); i++) {
-			System.out.println();
-		}	
+					String sCurrentLine = "";
+					
+					int k = 0;
+					while ((sCurrentLine = br.readLine()) != null) { 
+						//Recorre las primeras 6 lineas las lee
+						if(k++ > 6) {
+							//A partir de la linea 7 añade la regla que se valido anteriormente  y la imprime en el texto
+							Regla regla = new Regla(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText(), txt[4].getText());
+							pw.println(regla.toString());
+							//Luego añade la regla en el arrayList de reglas
+							reglas.add(regla);
+							System.out.println(regla.toString() + " " + reglas.size());
+						}	
+					}
+				} catch (IOException e) {
+
+					e.printStackTrace();
+				}
+			}
+		}
 	}
+
+	//Obtiene el numero de columnas del GridPane
+	private int getRowCount(GridPane pane) {
+
+		int numRows = pane.getRowConstraints().size();
+		for (int i = 0; i < pane.getChildren().size(); i++) {
+			Node child = pane.getChildren().get(i);
+			if (child.isManaged()) {
+				Integer rowIndex = GridPane.getRowIndex(child);
+				if(rowIndex != null){
+					numRows = Math.max(numRows,rowIndex+1);
+				}
+			}
+		}
+		return numRows;
+
+	}
+	
+	//Obtiene los objetos que estan en una fila y columna de un GridPane
+	@SuppressWarnings("static-access")
+	public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
+		Node result = null;
+		ObservableList<Node> childrens = gridPane.getChildren();
+
+		for (Node node : childrens) {
+			if(gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+				result = node;
+				break;
+			}
+		}
+		return result;
+	}
+
+	//Aqui termina---------------------------------------------------------
 
 	public void irADefFormal() {
 		//Abre la ventana de definiciÃ³n formal con los datos del archivo presionado
@@ -248,7 +332,7 @@ public class ControllerAutomata {
 		stage.setScene(new Scene(p));
 		stage.showAndWait();
 	}
-	
+
 	public void volverAlPrincipio() {
 		Parent pane = null;
 		try {
@@ -323,7 +407,7 @@ public class ControllerAutomata {
 		panePila.setContent(objetosPila);
 		objetosPila.setTranslateY(objetosPila.getTranslateY() -objetosPila.getFixedCellSize()* palabras.length);
 
-		
+
 	}
 
 	public void borrarPila()  {
@@ -345,32 +429,33 @@ public class ControllerAutomata {
 			br = new BufferedReader(fr);
 
 			String sCurrentLine = "";
+			String[] r = new String[5];
 
 			//Lee las reglas y las guarda
 			while ((sCurrentLine = br.readLine()) != null) { 
 				leerTexto();
 				Regla regla = new Regla();
-				String[] r = sCurrentLine.split(",");
-
+				r = sCurrentLine.split(",");
 				try {
-					if(contiene(listaEstados, r[0]) && contiene(listaAlfabeto, r[1]) && contiene(listaAlfabetoPila, r[2]) && contiene(listaEstados, r[3])) {
-						regla.setEstadoActual(r[0]);
-						regla.setEntrada(r[1]);
-						regla.setCimaPila(r[2]);
-						regla.setEstadoNuevo(r[3]);
-						regla.setAccion(r[4]);
-
-						reglas.add(regla);
-					}
-				}catch (Exception e) {
+					regla.setEstadoActual(r[0]);
+					regla.setEntrada(r[1]);
+					regla.setCimaPila(r[2]);
+					regla.setEstadoNuevo(r[3]);
+					regla.setAccion(r[4]);
+					reglas.add(regla);
 				}
-
+				catch (Exception e) {
+				}
 			}
 
+			if(!(contiene(listaEstados, r[0]) && contiene(listaAlfabeto, r[1]) && contiene(listaAlfabetoPila, r[2]) && contiene(listaEstados, r[3]))) {
+				Mensaje.mostrarAdvertencia("Se cambio la definicion formal, por favor revise las reglas nuevamente para evitar problemas con su automata.");
+			}
 		} catch (IOException e) {
 
 			e.printStackTrace();
 		}
+
 
 	}
 
@@ -414,10 +499,10 @@ public class ControllerAutomata {
 			if(estadoAceptacion || pilaVacia) {
 				AutomataControl automataControl = new AutomataControl(automata,palabra,estadoAceptacion, pilaVacia);
 				automataControl.simular();
-				
+
 				//Proceso gráfico automático
 				ArrayList<Regla> rules = automataControl.getReglasGraf();
-				
+
 				if(rules.size() > 0) {
 					String mensaje = "Pasos para la aceptación: \n";
 					for(int i = 0; i < automataControl.getReglasGraf().size(); i++) {
@@ -427,7 +512,7 @@ public class ControllerAutomata {
 					}
 					Mensaje.mostrarMensaje(mensaje);
 				}
-				
+
 				Timer t = new Timer();
 
 				TimerTask tt = new TimerTask() {
@@ -459,8 +544,8 @@ public class ControllerAutomata {
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
 		}	
-		
-		
+
+
 	}
 
 	private boolean contiene(String[] lista, String elemento) {
