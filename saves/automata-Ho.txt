@@ -1,0 +1,9 @@
+q1
+a,b,#
+A
+q1
+A
+q1
+q0,b,Z,q1,A
+q1,a,Z,q1,Z
+q1,a,Z,q1,AAAZ

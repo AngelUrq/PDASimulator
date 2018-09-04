@@ -32,6 +32,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
@@ -168,11 +169,11 @@ public class ControllerAutomata {
 			Regla regla;
 			boolean reglaRepetida = false;
 
-			if(validarReglas(estadoActual, entrada, cimaPila, estadoNuevo)) {
+			if(validarReglas(estadoActual, entrada, cimaPila, estadoNuevo, accion)) {
 				if(tamReglas > 0) {
 					System.out.println("Entre");
 					for(int i = reglas.size() - 1; i >= 0; i--) {
-						if(reglas.get(i).getEstadoActual().equals(estadoActual) && reglas.get(i).getEntrada().equals(entrada) && reglas.get(i).getCimaPila().equals(cimaPila) && reglas.get(i).getEstadoNuevo().equals(estadoNuevo)){
+						if(reglas.get(i).getEstadoActual().equals(estadoActual) && reglas.get(i).getEntrada().equals(entrada) && reglas.get(i).getCimaPila().equals(cimaPila) && reglas.get(i).getEstadoNuevo().equals(estadoNuevo) && reglas.get(i).getAccion().equals(accion)){
 							reglaRepetida = true;			
 						}
 					}
@@ -212,63 +213,66 @@ public class ControllerAutomata {
 			Mensaje.mostrarError("Debes ingresar datos");
 		}
 	}
-//Comienza aqui----------------------------------------------
+
 	public void btnGuardarReglas(ActionEvent event) throws IOException {
-		System.out.println("Guardando...");
-		
-		//Primero revisa que el vector tenga tamaño 0, si este tiene tamaño mayor a cero, limpia todo el arrayList
+
+		FileWriter fichero = null;
+		PrintWriter pw = null;
+
+		boolean validado = true;
+
 		if(reglas.size() > 0) {
 			reglas.clear();
 		}
-		
-		//Permite obtener los valores de cada posicion del gridPane segun fila y columna y los almacena en textField
-		int contador = 0 ;
+
 		for(int i = 0; i < getRowCount(grid); i++) {
 			for(int j = 0; j < txt.length ;j++) {
-				txt[contador] = (TextField) getNodeByRowColumnIndex(i, 2 * j + 1 , grid);
-				System.out.println(getNodeByRowColumnIndex(i, 2 * j + 1 , grid).toString());
-				contador++;
+				txt[j] = (TextField) getNodeByRowColumnIndex(i, 2 * j + 1 , grid);
 			}
-			contador = 0;
-			
-			//Aun falta validar el apilar, desapilar o mantener sin hacer nada
-			txt[4].getText();
-			
-			//Valida que la regla contenga simbolos de la definicion formal
-			if(validarReglas(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText())) {
-				try {
-					//Inicia el lector de texto
-					BufferedReader br = null;
-					FileReader f = null;
-					//Inicia el FileWriter para poder escribir en el texto
-					FileWriter fr = null;
-					PrintWriter pw = null;
-					//--------------------Obtiene el archivo a leer o escribir
-					f = new FileReader(ControllerDefinicionFormal.archivo);
-					br = new BufferedReader(f);
-					fr = new FileWriter(ControllerDefinicionFormal.archivo);
-					pw = new PrintWriter(fr);
 
-					String sCurrentLine = "";
-					
-					int k = 0;
-					while ((sCurrentLine = br.readLine()) != null) { 
-						//Recorre las primeras 6 lineas las lee
-						if(k++ > 6) {
-							//A partir de la linea 7 añade la regla que se valido anteriormente  y la imprime en el texto
-							Regla regla = new Regla(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText(), txt[4].getText());
-							pw.println(regla.toString());
-							//Luego añade la regla en el arrayList de reglas
-							reglas.add(regla);
-							System.out.println(regla.toString() + " " + reglas.size());
-						}	
-					}
-				} catch (IOException e) {
-
-					e.printStackTrace();
-				}
+			if(validarReglas(txt[0].getText(), txt[1].getText(), txt[2].getText(), txt[3].getText(), txt[4].getText())) {
+				Regla regla = new Regla(txt[0].getText(), txt[1].getText() , txt[2].getText() , txt[3].getText() , txt[4].getText());
+				reglas.add(regla);
+				System.out.println(regla.toString());
+			}
+			else {
+				validado = false;
+				Mensaje.mostrarError("Ingresaste una regla mal. Revisa que estas pertenezcan a tu definicion formal");
 			}
 		}
+
+
+		if(validado) {
+			try
+			{
+				fichero = new FileWriter(ControllerDefinicionFormal.archivo);
+
+				pw = new PrintWriter(fichero);
+				pw.println(concatenarListas(listaEstados, ","));
+				pw.println(concatenarListas(listaAlfabeto, ","));
+				pw.println(concatenarListas(listaAlfabetoPila, ","));
+				pw.println(concatenarListas(listaEstadosIniciales, ","));
+				pw.println(simboloInicialPila);
+				pw.println(concatenarListas(listaEstadosAceptacion, ","));
+
+				for(int i = 0; i < reglas.size(); i++) {
+					pw.println(reglas.get(i).toString());
+					System.out.println(reglas.get(i).toString());
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					if (null != fichero) {
+						fichero.close();
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}	
+		}
+
 	}
 
 	//Obtiene el numero de columnas del GridPane
@@ -287,7 +291,7 @@ public class ControllerAutomata {
 		return numRows;
 
 	}
-	
+
 	//Obtiene los objetos que estan en una fila y columna de un GridPane
 	@SuppressWarnings("static-access")
 	public Node getNodeByRowColumnIndex (final int row, final int column, GridPane gridPane) {
@@ -345,7 +349,7 @@ public class ControllerAutomata {
 		ventana.setScene(nuevaEscena);
 	}
 
-	public boolean validarReglas(String estadoActual, String entrada, String cimaPila, String estadoNuevo) {
+	public boolean validarReglas(String estadoActual, String entrada, String cimaPila, String estadoNuevo, String accion) {
 		boolean entradasValidadas = false;
 		boolean validarEstados = false;
 		boolean validarEntradas = false;
@@ -382,8 +386,18 @@ public class ControllerAutomata {
 		if(cimaPila.equals("Z")) {
 			validarAlfabetoPila = true;
 		}
+		
+		boolean validarAccion = true;
+		int j = 1;
+		for(int i = cimaPila.length() - 1; i >= 0 ; i--) {
+			System.out.println(accion.charAt(accion.length() - j) + " != " + cimaPila.charAt(i) );
+			if((accion.charAt(accion.length() - j) != cimaPila.charAt(i)) || accion.equals("#")) {
+				validarAccion = false;
+			}
+			j++;
+		}
 
-		entradasValidadas = validarEstados && validarEntradas && validarAlfabetoPila;
+		entradasValidadas = validarEstados && validarEntradas && validarAlfabetoPila && validarAccion;
 		return entradasValidadas;	
 	}
 
@@ -448,9 +462,9 @@ public class ControllerAutomata {
 				}
 			}
 
-			if(!(contiene(listaEstados, r[0]) && contiene(listaAlfabeto, r[1]) && contiene(listaAlfabetoPila, r[2]) && contiene(listaEstados, r[3]))) {
-				Mensaje.mostrarAdvertencia("Se cambio la definicion formal, por favor revise las reglas nuevamente para evitar problemas con su automata.");
-			}
+			//if(!(contiene(listaEstados, r[0]) && contiene(listaAlfabeto, r[1]) && contiene(listaAlfabetoPila, r[2]) && contiene(listaEstados, r[3]))) {
+			//Mensaje.mostrarAdvertencia("Se cambio la definicion formal, por favor revise las reglas nuevamente para evitar problemas con su automata.");
+			//}
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -610,5 +624,18 @@ public class ControllerAutomata {
 
 		listaReglas.setContent(grid);
 	}
+
+	public String concatenarListas(String[] lista, String separador) {
+		String palabra = "";
+		for(int i = 0; i < lista.length; i++) {
+			if(i == lista.length - 1) {
+				palabra += lista[i].toString();
+			}else {
+				palabra = palabra + lista[i].toString() + separador;
+			}
+		}
+		return palabra;
+	}
+	
 }
 
