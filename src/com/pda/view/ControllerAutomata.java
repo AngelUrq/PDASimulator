@@ -405,14 +405,28 @@ public class ControllerAutomata {
 	}
 
 	public void dibujarPila(String[] palabras)  {
+		boolean igualAZ = false;
+
 		for(int i = 0; i < palabras.length; i++) {
 			if(!palabras[i].equals("Z")) {
 				list.add(0,palabras[i]);	
+			}else {
+				igualAZ = true;
 			}
 		}
-		objetosPila.setItems(list);
-		panePila.setContent(objetosPila);
-		objetosPila.setTranslateY(objetosPila.getTranslateY() -objetosPila.getFixedCellSize()* palabras.length);
+		
+		
+		
+		
+		
+		if( !igualAZ) {
+			
+			objetosPila.setItems(list);
+			panePila.setContent(objetosPila);
+			objetosPila.setTranslateY(objetosPila.getTranslateY() -objetosPila.getFixedCellSize()* palabras.length);
+			
+		}
+		
 	}
 
 	public void borrarPila()  {
