@@ -304,8 +304,6 @@ public class ControllerAutomata {
 		return result;
 	}
 
-	//Aqui termina---------------------------------------------------------
-
 	public void irADefFormal() {
 		//Abre la ventana de definiciÃ³n formal con los datos del archivo presionado
 		String fileName = ControllerDefinicionFormal.archivo.substring(6);
@@ -316,12 +314,8 @@ public class ControllerAutomata {
 		loader.setLocation(getClass().getResource("frmDefinicionFormal.fxml"));
 
 		try {
-
 			loader.load();	
-
 		}catch(IOException ex){
-
-			System.out.println("Â¡TÃ©mpanos de hielo!");
 		}
 
 		ControllerDefinicionFormal display = loader.getController();
@@ -387,11 +381,13 @@ public class ControllerAutomata {
 		boolean validarAccion = true;
 		int j = 1;
 		for(int i = cimaPila.length() - 1; i >= 0 ; i--) {
-			System.out.println(accion.charAt(accion.length() - j) + " != " + cimaPila.charAt(i) );
-			if((accion.charAt(accion.length() - j) != cimaPila.charAt(i)) && !accion.equals("#")) {
-				validarAccion = false;
+			try {
+				if((accion.charAt(accion.length() - j) != cimaPila.charAt(i)) && !accion.equals("#")) {
+					validarAccion = false;
+				}
+				j++;
+			} catch(Exception e) {	
 			}
-			j++;
 		}
 
 		entradasValidadas = validarEstados && validarEntradas && validarAlfabetoPila && validarAccion;
@@ -400,7 +396,6 @@ public class ControllerAutomata {
 
 
 	public void cargarReglas() {
-
 		leerReglas();
 		//Dibuja las reglas en la interfaz
 		for (int i = 0; i < reglas.size(); i++) {
@@ -410,13 +405,14 @@ public class ControllerAutomata {
 	}
 
 	public void dibujarPila(String[] palabras)  {
-		for(int i = 0; i < palabras.length; i++) {	
-			list.add(0,palabras[i]);	
+		for(int i = 0; i < palabras.length; i++) {
+			if(!palabras[i].equals("Z")) {
+				list.add(0,palabras[i]);	
+			}
 		}
 		objetosPila.setItems(list);
 		panePila.setContent(objetosPila);
 		objetosPila.setTranslateY(objetosPila.getTranslateY() -objetosPila.getFixedCellSize()* palabras.length);
-
 	}
 
 	public void borrarPila()  {
@@ -430,7 +426,6 @@ public class ControllerAutomata {
 	}
 
 	public void leerReglas() {
-
 		BufferedReader br = null;
 		FileReader fr = null;
 		try {
@@ -460,12 +455,9 @@ public class ControllerAutomata {
 
 			e.printStackTrace();
 		}
-
-
 	}
 
 	public boolean palabraPerteneceAlAlfabeto(String palabra) {
-
 		ArrayList<String> alfabeto = automata.getAlfabetoEntrada();
 		boolean esValido;
 		boolean pertenece = true;
@@ -533,7 +525,7 @@ public class ControllerAutomata {
 
 						if(rules.get(i).getAccion().equals("#")) {
 							borrarPila();
-						}else {
+						}else {	
 							String[] r = rules.get(i).getAccion().split("");
 							dibujarPila(r);	
 						}
@@ -544,17 +536,15 @@ public class ControllerAutomata {
 				};
 				t.schedule(tt,1000,1000);		
 			} else {
-				Mensaje.mostrarError("No se marco si el automata acepta por pila vaci­a o estado de aceptacion");
+				Mensaje.mostrarError("No se marcó si el automata acepta por pila vacía o estado de aceptación");
 			}
 		}else {
 			new Alert(Alert.AlertType.ERROR, "La palabra no pertenece al lenguaje").showAndWait();
 		}	
 
-
 	}
 
 	private void dibujarRegla(String estadoActual, String entrada, String cimaPila, String estadoNuevo, String accion) {
-
 		Label inicio = new Label();
 		Label fin = new Label();
 		Label [] separadores = new Label[4];
@@ -618,4 +608,3 @@ public class ControllerAutomata {
 	}
 
 }
-

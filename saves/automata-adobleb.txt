@@ -1,0 +1,16 @@
+Leer,Acept,Segunda_a
+a,b,#
+A,B,z0
+Leer
+z0
+Acept
+Leer,#,z0,Acept,#
+Leer,a,z0,Leer,Az0
+Leer,b,z0,Leer,BBz0
+Leer,a,A,Leer,AA
+Leer,a,B,Leer,#
+Leer,b,B,Leer,BBB
+Segunda_a,#,A,Leer,#
+Segunda_a,#,B,Leer,BB
+Segunda_a,#,z0,Leer,Bz0
+Leer,b,A,Segunda_a,#
