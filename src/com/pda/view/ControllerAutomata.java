@@ -32,7 +32,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.Menu;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.scene.layout.AnchorPane;
@@ -126,8 +125,6 @@ public class ControllerAutomata {
 		try {
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
-
-			String sCurrentLine;
 
 			listaEstados = (br.readLine()).split(","); 
 			listaAlfabeto = (br.readLine()).split(","); 
