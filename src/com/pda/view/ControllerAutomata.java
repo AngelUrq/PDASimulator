@@ -76,12 +76,7 @@ public class ControllerAutomata {
 
 	private Automata automata;
 
-	private String nombreArchivo;
-
 	private ArrayList<Regla> reglas;
-
-	private BufferedReader br;
-	private FileReader fr;
 
 	private boolean pilaVacia;
 	private boolean estadoAceptacion;
@@ -256,7 +251,7 @@ public class ControllerAutomata {
 				pw.println(concatenarListas(listaEstadosAceptacion, ","));
 
 				crearAutomata();
-				
+
 				for(int i = 0; i < reglas.size(); i++) {
 					pw.println(reglas.get(i).toString());
 					System.out.println(reglas.get(i).toString());
@@ -388,12 +383,12 @@ public class ControllerAutomata {
 		if(cimaPila.equals("Z")) {
 			validarAlfabetoPila = true;
 		}
-		
+
 		boolean validarAccion = true;
 		int j = 1;
 		for(int i = cimaPila.length() - 1; i >= 0 ; i--) {
 			System.out.println(accion.charAt(accion.length() - j) + " != " + cimaPila.charAt(i) );
-			if((accion.charAt(accion.length() - j) != cimaPila.charAt(i)) || accion.equals("#")) {
+			if((accion.charAt(accion.length() - j) != cimaPila.charAt(i)) && !accion.equals("#")) {
 				validarAccion = false;
 			}
 			j++;
@@ -415,14 +410,12 @@ public class ControllerAutomata {
 	}
 
 	public void dibujarPila(String[] palabras)  {
-
 		for(int i = 0; i < palabras.length; i++) {	
-			list.add(0,palabras[i]);
+			list.add(0,palabras[i]);	
 		}
 		objetosPila.setItems(list);
 		panePila.setContent(objetosPila);
 		objetosPila.setTranslateY(objetosPila.getTranslateY() -objetosPila.getFixedCellSize()* palabras.length);
-
 
 	}
 
@@ -463,10 +456,6 @@ public class ControllerAutomata {
 				catch (Exception e) {
 				}
 			}
-
-			//if(!(contiene(listaEstados, r[0]) && contiene(listaAlfabeto, r[1]) && contiene(listaAlfabetoPila, r[2]) && contiene(listaEstados, r[3]))) {
-			//Mensaje.mostrarAdvertencia("Se cambio la definicion formal, por favor revise las reglas nuevamente para evitar problemas con su automata.");
-			//}
 		} catch (IOException e) {
 
 			e.printStackTrace();
@@ -546,7 +535,7 @@ public class ControllerAutomata {
 							borrarPila();
 						}else {
 							String[] r = rules.get(i).getAccion().split("");
-							dibujarPila(r);
+							dibujarPila(r);	
 						}
 
 						i++;
@@ -562,17 +551,6 @@ public class ControllerAutomata {
 		}	
 
 
-	}
-
-	private boolean contiene(String[] lista, String elemento) {
-		boolean contiene = false;
-
-		for(int i = 0; i < lista.length; i++) {
-			if(lista[i].equals(elemento)) {
-				contiene = true;
-			}
-		}
-		return contiene;
 	}
 
 	private void dibujarRegla(String estadoActual, String entrada, String cimaPila, String estadoNuevo, String accion) {
@@ -638,6 +616,6 @@ public class ControllerAutomata {
 		}
 		return palabra;
 	}
-	
+
 }
 
