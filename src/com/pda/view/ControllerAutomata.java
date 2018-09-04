@@ -255,6 +255,8 @@ public class ControllerAutomata {
 				pw.println(simboloInicialPila);
 				pw.println(concatenarListas(listaEstadosAceptacion, ","));
 
+				crearAutomata();
+				
 				for(int i = 0; i < reglas.size(); i++) {
 					pw.println(reglas.get(i).toString());
 					System.out.println(reglas.get(i).toString());

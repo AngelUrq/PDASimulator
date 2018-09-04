@@ -51,7 +51,7 @@ public class Mensaje {
 		dialog.setTitle("Ingresar datos");
 		dialog.setHeaderText(mensaje1);
 		dialog.setContentText(mensaje2);
-
+		
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()){
 		    return result.get();

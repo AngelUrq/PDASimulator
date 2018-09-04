@@ -30,6 +30,8 @@ public class AutomataControl {
 
 	@SuppressWarnings("unchecked")
 	public void simular() {	
+		separarAccion();
+		
 		//Probamos para todos los estados iniciales
 		for(int i = 0; i < definicion.getEstadosIniciales().size(); i++) {
 			probarRegla(definicion.getEstadosIniciales().get(i), 0, (Stack<String>) definicion.getPila().clone(), new ArrayList<Regla>());
@@ -124,6 +126,19 @@ public class AutomataControl {
 		return pertenece;
 	}
 
+	private void separarAccion() {
+		ArrayList<Regla> lista = definicion.getReglas();
+		
+		for(Regla regla: lista) {
+			String[] accion = regla.getAccion().split(regla.getCimaPila());
+			try {
+				regla.setAccion(accion[0]);	
+			} catch(Exception e) {
+				
+			}
+		}
+	}
+	
 	public ArrayList<Regla> getReglasGraf() {
 		return reglasGraf;
 	}

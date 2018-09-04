@@ -64,7 +64,6 @@
           <Menu fx:id="menu" mnemonicParsing="false" text="Archivo">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#volverAlPrincipio" text="Nuevo" />
-                  <MenuItem mnemonicParsing="false" text="Guardar autómata" />
             </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Definición">
