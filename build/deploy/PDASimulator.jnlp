@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<jnlp spec="1.0" xmlns:jfx="http://javafx.com" href="PDASimulator.jnlp">
+  <information>
+    <title>PDASimulator</title>
+    <vendor>PDA</vendor>
+    <description>PDASimulator</description>
+    <offline-allowed/>
+  </information>
+  <resources>
+    <j2se version="1.6+" href="http://java.sun.com/products/autodl/j2se"/>
+    <jar href="PDASimulator.jar" size="24322" download="eager" />
+  </resources>
+  <jfx:javafx-desc  width="0" height="0" main-class="com.pda.view.Main"  name="PDASimulator" />
+  <update check="background"/>
+</jnlp>

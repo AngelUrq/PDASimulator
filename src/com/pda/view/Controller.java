@@ -32,7 +32,7 @@ public class Controller {
 
 	@FXML
 	private Button btn_crear;
-	
+
 	@FXML
 	public void initialize() {
 		desktop = Desktop.getDesktop();
@@ -40,30 +40,35 @@ public class Controller {
 	}
 
 	public void listar() {		
+
 		GridPane grid = new GridPane();
 
-		File folder = new File("saves/");
-		File[] listOfFiles = folder.listFiles();
+		try {
+			File folder = new File("saves/");
+			File[] listOfFiles = folder.listFiles();
 
-		for (int r = 0; r < listOfFiles.length;r++) {
-			if (listOfFiles[r].isFile()) {
-				Button button = new Button(listOfFiles[r].getName());
-				button.setPrefWidth(listaScroll.getPrefWidth());
-				button.setStyle("-fx-background-color: #357A86; -fx-text-fill: white; -fx-padding: 15px");
-				button.setOnAction(new EventHandler<ActionEvent>() {
-					@Override
-					public void handle(ActionEvent event) {
-						//Abre la ventana de definición formal con los datos del archivo presionado
-						String fileName = button.getText();
+			for (int r = 0; r < listOfFiles.length;r++) {
+				if (listOfFiles[r].isFile()) {
+					Button button = new Button(listOfFiles[r].getName());
+					button.setPrefWidth(listaScroll.getPrefWidth());
+					button.setStyle("-fx-background-color: #357A86; -fx-text-fill: white; -fx-padding: 15px");
+					button.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent event) {
+							//Abre la ventana de definición formal con los datos del archivo presionado
+							String fileName = button.getText();
 
-						abrirComenzarCargar(fileName);
-					}
-				});
-				grid.add(button, 1, r);
+							abrirComenzarCargar(fileName);
+						}
+					});
+					grid.add(button, 1, r);
+				}
 			}
-		}
 
-		listaScroll.setContent(grid);
+			listaScroll.setContent(grid);	
+		} catch(Exception e) {
+
+		}
 	}
 
 	@FXML	
@@ -127,7 +132,7 @@ public class Controller {
 
 		Stage ventana = (Stage) panelPrincipal.getScene().getWindow();
 		ventana.close();
-		
+
 		Parent p = loader.getRoot();
 		Stage stage = new Stage();
 		stage.setScene(new Scene(p));

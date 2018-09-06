@@ -1,4 +1,5 @@
-﻿package com.pda.view;
+
+package com.pda.view;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -123,6 +124,8 @@ public class ControllerAutomata {
 		BufferedReader br = null;
 		FileReader fr = null;
 		try {
+			System.out.println("Archivo: " + ControllerDefinicionFormal.archivo);
+			System.out.println("Dirección: " + System.getProperty("user.dir"));
 			fr = new FileReader(ControllerDefinicionFormal.archivo);
 			br = new BufferedReader(fr);
 
@@ -139,10 +142,7 @@ public class ControllerAutomata {
 			panePila.setContent(objetosPila);
 			objetosPila.setTranslateX(75);
 			objetosPila.setTranslateY(525);		
-
-
 		} catch (IOException e) {
-
 			e.printStackTrace();
 		}
 	}
@@ -411,10 +411,6 @@ public class ControllerAutomata {
 				igualAZ = true;
 			}
 		}
-		
-		
-		
-		
 		
 		if( !igualAZ) {
 			

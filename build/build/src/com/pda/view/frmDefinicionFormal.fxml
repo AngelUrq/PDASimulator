@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="panelPrincipal" fx:id="panelPrincipal" prefHeight="700.0" prefWidth="1044.0" stylesheets="@application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pda.view.ControllerDefinicionFormal">
+   <children>
+      <Label layoutX="136.0" layoutY="80.0" text="Definición formal del autómata" textFill="#f2eeee">
+         <font>
+            <Font name="Century Gothic" size="29.0" />
+         </font>
+      </Label>
+      <TextField fx:id="txt_estados" layoutX="194.0" layoutY="181.0" prefHeight="31.0" prefWidth="384.0" />
+      <TextField fx:id="txt_alfabeto_pila" layoutX="194.0" layoutY="341.0" prefHeight="31.0" prefWidth="384.0" />
+      <TextField fx:id="txt_alfabeto_entrada" layoutX="194.0" layoutY="257.0" prefHeight="31.0" prefWidth="384.0" />
+      <TextField fx:id="txt_estado_inicial" layoutX="194.0" layoutY="417.0" prefHeight="31.0" prefWidth="384.0" />
+      <TextField fx:id="txt_simbolo_inicial_pila" layoutX="194.0" layoutY="493.0" prefHeight="31.0" prefWidth="384.0" />
+      <TextField fx:id="txt_estados_aceptados" layoutX="194.0" layoutY="582.0" prefHeight="31.0" prefWidth="384.0" />
+      <Label layoutX="74.0" layoutY="145.0" text="Conjunto de estados:" textFill="#f2eeee">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="75.0" layoutY="225.0" text="Alfabeto de entrada:" textFill="#f2eeee">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="76.0" layoutY="307.0" text="Alfabeto de la pila:" textFill="#f2eeee">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="74.0" layoutY="384.0" text="Estado inicial:" textFill="#f2eeee">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="79.0" layoutY="460.0" text="Símbolo inicial de la pila:" textFill="#f2eeee">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+      </Label>
+      <Label layoutX="74.0" layoutY="539.0" text="Conjunto de estados aceptados:" textFill="#f2eeee">
+         <font>
+            <Font name="Century Gothic" size="16.0" />
+         </font>
+      </Label>
+      <Pane id="panelLateral" layoutX="677.0" layoutY="-2.0" prefHeight="712.0" prefWidth="366.0" stylesheets="@application.css">
+         <children>
+            <ImageView fitHeight="287.0" fitWidth="274.0" layoutX="29.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file::../../resources/transferencia-mental.png" />
+               </image>
+            </ImageView>
+            <Button id="btnComenzar" layoutX="59.0" layoutY="603.0" mnemonicParsing="false" onAction="#btnComenzarPresionado" prefHeight="39.0" prefWidth="215.0" stylesheets="@application.css" text="¡Comenzar!">
+               <font>
+                  <Font name="Century Gothic" size="15.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="97.0" layoutY="416.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="file::../../resources/automata.png" />
+               </image>
+            </ImageView>
+            <Pane id="barraLateral" layoutX="337.0" layoutY="1.0" prefHeight="712.0" prefWidth="16.0" stylesheets="@application.css" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
